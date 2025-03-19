@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameState : MonoBehaviour
@@ -5,6 +8,8 @@ public class GameState : MonoBehaviour
     [SerializeField] public GameObject fieldOfPlay;
     [SerializeField] public GameObject scoreBug;
     [SerializeField] public GameObject players; 
+
+    GameStateStruct currentGameState;
 
     private bool topInning = true;
     private int inning = 1;
@@ -21,7 +26,7 @@ public class GameState : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        currentGameState = new GameStateStruct(topInning, inning, awayScore, homeScore, outs, runnerOnFirst, runnerOnSecond, runnerOnThird);
     }
 
     // Update is called once per frame
@@ -32,24 +37,27 @@ public class GameState : MonoBehaviour
 
     public void PlayCard(Card card)
     {
-        HandleCardEffect(card.cardEffect);
+        HandleCardEffect(card);
         UpdateUI();
     }
 
     public void UpdateUI()
     {
+        // Update the field of play (e.g. where runners are)
         FieldOfPlayManager fieldScript = fieldOfPlay.GetComponent<FieldOfPlayManager>();
         if (fieldScript != null)
         {
-            fieldScript.UpdateFromGameState(runnerOnFirst, runnerOnSecond, runnerOnThird);
+            fieldScript.UpdateFromGameState(currentGameState);
         }
 
+        // Update the score bug as needed (inning, outs, score, etc.)
         ScoreBugManager scoreBugScript = scoreBug.GetComponent<ScoreBugManager>();
         if (scoreBugScript != null)
         {
-            scoreBugScript.UpdateFromGameState(topInning, inning, awayScore, homeScore, outs);
+            scoreBugScript.UpdateFromGameState(currentGameState);
         }
 
+        // Update who the current player is in the player window
         PlayersInit playersScript = players.GetComponent<PlayersInit>();
         if (playersScript != null)
         {
@@ -57,183 +65,64 @@ public class GameState : MonoBehaviour
         }
     }
 
-    public void HandleCardEffect(CARD_EFFECT effect)
+    public void HandleCardEffect(Card card)
     {
-        switch (effect)
-        {
-            case CARD_EFFECT.BASE_HIT:
-                HandleBaseHit();
-                break;
-            case CARD_EFFECT.GAP_DOUBLE:
-                HandleGapDouble();
-                break;
-            case CARD_EFFECT.GROUND_OUT:
-                HandleGroundOut();
-                break;
-            default:
-                break;
-        }
-    }
-    
-    public void HandleBaseHit()
-    {
-        if (runnerOnThird)
-        {
-            runnerOnThird = false;
-            ScoreRun();
-        }
+        // Set the effect to look for
+        CARD_EFFECT _effect = card.cardEffect;
 
-        if (runnerOnSecond)
+        // Load the players script and check the current active player type for modifications
+        PlayersInit playersScript = players.GetComponent<PlayersInit>();
+        if (playersScript != null)
         {
-            runnerOnSecond = false;
-            runnerOnThird = true;
-        }
+            // Get the current player type
+            PLAYER_TYPE currentPlayerType = playersScript.currentPlayer.GetComponent<Player>().PlayerType;
 
-        if (runnerOnFirst)
-        {
-            runnerOnFirst = false;
-            runnerOnSecond = true;
-        }
-
-        runnerOnFirst = true;
-    }
-
-    public void HandleGapDouble()
-    {
-        if (runnerOnThird)
-        {
-            runnerOnThird = false;
-            ScoreRun();
-        }
-
-        if (runnerOnSecond)
-        {
-            runnerOnSecond = false;
-            ScoreRun();
-        }
-
-        if (runnerOnFirst)
-        {
-            runnerOnFirst = false;
-            runnerOnThird = true;
-        }
-
-        runnerOnSecond = true;
-    }
-
-    public void HandleGroundOut()
-    {
-        if (outs >= 2)
-        {
-            TurnOverInning();
-        }
-        else
-        {
-            // Bases loaded
-            if (runnerOnThird && runnerOnSecond && runnerOnFirst)
+            // If player type is a special one
+            if (currentPlayerType != PLAYER_TYPE.NONE)
             {
-                // double play
-                if (outs >= 1)
+                // Check for modifications for that player type
+                Modification foundModification = card.getCardModByPlayerType(currentPlayerType);
+
+                if (foundModification.newEffect != CARD_EFFECT.DEFAULT_NO_EFFECT)
                 {
-                    ClearBases();
-                }
-                else
-                {
-                    // Double play, only remove runner on first
-                    runnerOnFirst = false;
-                    outs = 2;
+                    _effect = foundModification.newEffect;
                 }
             }
-            // Second and 3rd
-            else if (runnerOnThird && runnerOnSecond)
-            {
-                runnerOnSecond = false;
-                outs++;
-                ScoreRun();
-            }
-            // 1st and 3rd
-            else if (runnerOnThird && runnerOnFirst)
-            {
-                if (outs >= 1)
-                {
-                    TurnOverInning();
-                }
-                else
-                {
-                    outs = 2;
-                    ScoreRun();
-                }
-            }
-            // 3rd only
-            else if (runnerOnThird)
-            {
-                runnerOnThird = false;
-                outs++;
-                ScoreRun();
-            }
-            // 2nd and 1st
-            else if (runnerOnSecond && runnerOnFirst)
-            {
-                if (outs >= 1)
-                {
-                    TurnOverInning();
-                }
-                else
-                {
-                    runnerOnFirst = false;
-                    runnerOnSecond = false;
-                    runnerOnThird = true;
-                    outs += 2;
-                }
-            }
-            // 2nd only
-            else if (runnerOnSecond)
-            {
-                runnerOnSecond = false;
-                runnerOnThird = true;
-                outs++;
-            }
-            // 1st only
-            else if (runnerOnFirst)
-            {
-                runnerOnFirst = false;
-                outs += 2;
-            }
-            // bases empty
-            else
-            {
-                outs++;
-            }
         }
+
+        // Handle the effect of the played card
+        HandleCardEffectLogic.Start(ref currentGameState, _effect);
+    }
+}
+
+public struct GameStateStruct
+{
+    public bool topInning;
+    public int inning;
+
+    public int awayScore;
+    public int homeScore;
+
+    public int outs;
+
+    public bool runnerOnFirst;
+    public bool runnerOnSecond;
+    public bool runnerOnThird;
+
+    public GameStateStruct(bool _topInning, int _inning, int _awayScore, int _homeScore, int _outs, bool _first, bool _second, bool _third)
+    {
+        topInning = _topInning;
+        inning = _inning;
+        awayScore = _awayScore;
+        homeScore = _homeScore;
+        outs = _outs;
+        runnerOnFirst = _first;
+        runnerOnSecond = _second;
+        runnerOnThird = _third;
     }
 
-    public void ScoreRun()
+    public GameStateStruct copyCurrentState()
     {
-        if (topInning)
-        {
-            awayScore++;
-        }
-        else
-        {
-            homeScore++;
-        }
-    }
-
-    private void ClearBases()
-    {
-        runnerOnFirst = false;
-        runnerOnSecond = false;
-        runnerOnThird = false;
-    }
-
-    private void TurnOverInning()
-    {
-        runnerOnFirst = false;
-        runnerOnSecond = false;
-        runnerOnThird = false;
-
-        outs = 0;
-        topInning = !topInning;
-        if(topInning) inning++;
+        return new GameStateStruct(topInning, inning, awayScore, homeScore, outs, runnerOnFirst, runnerOnSecond, runnerOnThird);
     }
 }

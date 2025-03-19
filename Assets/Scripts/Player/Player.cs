@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
     }
 }
 
-
+// Keep "NONE" at 0 index -> card modifications are dependent
 public enum PLAYER_TYPE
 {
     NONE,

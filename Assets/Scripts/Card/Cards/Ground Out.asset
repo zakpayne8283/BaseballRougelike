@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Ground Out
   m_EditorClassIdentifier: 
   cardName: Ground Out
-  cardEffect: 1
+  cardEffect: 2
+  cardMods: []

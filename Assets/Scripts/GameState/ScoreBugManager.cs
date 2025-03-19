@@ -28,13 +28,13 @@ public class ScoreBugManager : MonoBehaviour
         
     }
 
-    public void UpdateFromGameState(bool _topInning, int _inning, int _awayScore, int _homeScore, int _outs)
+    public void UpdateFromGameState(GameStateStruct gameState)
     {
-        topInning = _topInning;
-        inning = _inning;
-        awayScore = _awayScore;
-        homeScore = _homeScore;
-        outs = _outs;
+        topInning = gameState.topInning;
+        inning = gameState.inning;
+        awayScore = gameState.awayScore;
+        homeScore = gameState.homeScore;
+        outs = gameState.outs;
 
         UpdateInning();
         UpdateScores();

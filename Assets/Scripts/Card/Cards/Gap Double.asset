@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: Gap Double
   m_EditorClassIdentifier: 
   cardName: Gap Double
-  cardEffect: 2
+  cardEffect: 3
   cardMods:
   - playerType: 3
-    newEffect: 4
-  - playerType: 1
-    newEffect: 0
-  - playerType: 2
     newEffect: 5
+    improvement: 1
+  - playerType: 1
+    newEffect: 1
+    improvement: 0
+  - playerType: 2
+    newEffect: 6
+    improvement: 1

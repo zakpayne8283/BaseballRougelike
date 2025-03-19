@@ -17,10 +17,10 @@ public class FieldOfPlayManager : MonoBehaviour
         
     }
 
-    public void UpdateFromGameState(bool runnerOnFirst, bool runnerOnSecond, bool runnerOnThird)
+    public void UpdateFromGameState(GameStateStruct gameState)
     {
         // Update runner on first
-        if (runnerOnFirst)
+        if (gameState.runnerOnFirst)
         {
             fieldOfPlay.Find("First").GetComponent<Image>().color = Color.red;
         }
@@ -30,7 +30,7 @@ public class FieldOfPlayManager : MonoBehaviour
         }
 
         // Update runner on second
-        if (runnerOnSecond)
+        if (gameState.runnerOnSecond)
         {
             fieldOfPlay.Find("Second").GetComponent<Image>().color = Color.red;
         }
@@ -40,7 +40,7 @@ public class FieldOfPlayManager : MonoBehaviour
         }
 
         // Update runner on third
-        if (runnerOnThird)
+        if (gameState.runnerOnThird)
         {
             fieldOfPlay.Find("Third").GetComponent<Image>().color = Color.red;
         }

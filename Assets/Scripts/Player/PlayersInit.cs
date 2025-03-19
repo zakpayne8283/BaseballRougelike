@@ -11,7 +11,7 @@ public class PlayersInit : MonoBehaviour
     public Transform playerArea;
 
     private List<GameObject> players = new List<GameObject>();
-    private GameObject currentPlayer;
+    public GameObject currentPlayer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,6 +25,11 @@ public class PlayersInit : MonoBehaviour
 
             // Update the prefab text
             playerObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = $"Player #{i + 1}";
+
+            // if (i == 0)
+            // {
+            //     playerObject.GetComponent<Player>().PlayerType = PLAYER_TYPE.POWER;
+            // }
 
             // Add player to list of players
             players.Add(playerObject);
