@@ -11,10 +11,17 @@ public class HandActions : MonoBehaviour
     // Prefabs to use
     [SerializeField] private GameObject cardPrefab;
 
+    [SerializeField] private GameObject gameManager;
+
+    private int startingHandSize = 5;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        DrawCard();
+        for (int i = 0; i < startingHandSize; i++)
+        {
+            DrawCard();
+        }
     }
 
     // Update is called once per frame
@@ -29,11 +36,14 @@ public class HandActions : MonoBehaviour
 
         GameObject cardObject = Instantiate(cardPrefab, handArea);
 
+        // Assign the drawnCard scriptable object to the Card prefab object
+        CardPrefab cardScript = cardObject.GetComponent<CardPrefab>();
+        if (cardScript != null)
+        {
+            cardScript.Initialize(drawnCard, gameManager); // Assign the card
+        }
+
         // Assign card data to the UI
         cardObject.transform.Find("Card Name").GetComponent<TMP_Text>().text = drawnCard.cardName;
-        //cardObject.transform.Find("cardArt").GetComponent<Image>().sprite = drawnCard.cardArt;
-
-        // Optional: Adjust position or scale if needed
-        //cardObject.transform.localScale = Vector3.one;
     }
 }

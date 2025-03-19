@@ -28,9 +28,22 @@ public class ScoreBugManager : MonoBehaviour
         
     }
 
+    public void UpdateFromGameState(bool _topInning, int _inning, int _awayScore, int _homeScore, int _outs)
+    {
+        topInning = _topInning;
+        inning = _inning;
+        awayScore = _awayScore;
+        homeScore = _homeScore;
+        outs = _outs;
+
+        UpdateInning();
+        UpdateScores();
+        UpdateOuts();
+    }
+
     public void UpdateInning()
     {
-        string outputText = topInning ? $"Top {inning}" : $"Bottom {inning}";
+        string outputText = topInning ? $"Top {inning}" : $"Bot {inning}";
         scoreBug.transform.Find("Inning").GetComponent<TMP_Text>().text = outputText;
     }
 

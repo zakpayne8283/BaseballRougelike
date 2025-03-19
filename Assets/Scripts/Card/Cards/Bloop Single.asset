@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31fef23c1c8a40e45a426d762d7f192c, type: 3}
-  m_Name: Ground Out
+  m_Name: Bloop Single
   m_EditorClassIdentifier: 
-  cardName: Ground Out
-  cardEffect: 1
+  cardName: Bloop Single
+  cardEffect: 0
+  cardMods:
+  - playerType: 2
+    newEffect: 3

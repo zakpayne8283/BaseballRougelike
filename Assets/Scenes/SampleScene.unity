@@ -341,7 +341,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 13
+  m_fontSize: 13.65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1457,6 +1457,7 @@ GameObject:
   - component: {fileID: 1127696350}
   - component: {fileID: 1127696352}
   - component: {fileID: 1127696351}
+  - component: {fileID: 1127696353}
   m_Layer: 5
   m_Name: Score Bug
   m_TagString: Untagged
@@ -1525,6 +1526,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127696349}
   m_CullTransparentMesh: 1
+--- !u!114 &1127696353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127696349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5591c26260836524badf7dd2e2d6cc46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreBug: {fileID: 1127696350}
 --- !u!1 &1189523383
 GameObject:
   m_ObjectHideFlags: 0
@@ -1536,6 +1550,7 @@ GameObject:
   - component: {fileID: 1189523384}
   - component: {fileID: 1189523385}
   - component: {fileID: 1189523386}
+  - component: {fileID: 1189523387}
   m_Layer: 5
   m_Name: GameState_OBJ
   m_TagString: Untagged
@@ -1588,6 +1603,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldOfPlay: {fileID: 1982489222}
+--- !u!114 &1189523387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189523383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94a3d12ecce96f8469e129b8513feb1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fieldOfPlay: {fileID: 1982489221}
+  scoreBug: {fileID: 1127696349}
+  players: {fileID: 1921421969}
 --- !u!1 &1472558113
 GameObject:
   m_ObjectHideFlags: 0
@@ -1668,6 +1698,7 @@ MonoBehaviour:
   deck: {fileID: 1751173155}
   handArea: {fileID: 1472558114}
   cardPrefab: {fileID: 5350023980202335739, guid: ae19d8bd0fdd64949bb703ae21b08f68, type: 3}
+  gameManager: {fileID: 1189523383}
 --- !u!114 &1472558117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2213,6 +2244,7 @@ GameObject:
   - component: {fileID: 1982489222}
   - component: {fileID: 1982489224}
   - component: {fileID: 1982489223}
+  - component: {fileID: 1982489225}
   m_Layer: 5
   m_Name: Field Of Play
   m_TagString: Untagged
@@ -2240,7 +2272,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.213155, y: 0.39334366}
   m_AnchorMax: {x: 0.6777585, y: 0.9404987}
-  m_AnchoredPosition: {x: -1.7785034, y: 0.9710007}
+  m_AnchoredPosition: {x: -1.7784729, y: 0.9710007}
   m_SizeDelta: {x: 0.4151001, y: -2.5099945}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1982489223
@@ -2281,6 +2313,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982489221}
   m_CullTransparentMesh: 1
+--- !u!114 &1982489225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982489221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f394e3067e69e4d86411892d73b845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fieldOfPlay: {fileID: 1982489222}
 --- !u!1 &1989716489
 GameObject:
   m_ObjectHideFlags: 0
