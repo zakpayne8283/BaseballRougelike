@@ -4,8 +4,16 @@ public class HandleCardEffectLogic
 {
     private static GameStateStruct _gameState;
 
-    public static void Start(ref GameStateStruct currentGameState, CARD_EFFECT cardEffect)
+    /// <summary>
+    /// Begin handling the card effect
+    /// </summary>
+    /// <param name="currentGameState">[Ref] Game state provided by GameState.cs</param>
+    /// <param name="cardEffect">Listed card effect</param>
+    /// <param name="handScript">Script that manages hand - used to draw a card</param>
+    public static void Start(ref GameStateStruct currentGameState, CARD_EFFECT cardEffect, HandActions handScript)
     {
+        // TODO: Reconsider handScript
+
         // Copy the current state so we can edit it, then set 
         // the original value to what we've updated.
         _gameState = currentGameState.copyCurrentState();
@@ -14,6 +22,7 @@ public class HandleCardEffectLogic
         {
             case CARD_EFFECT.BASE_HIT:
                 HandleBaseHit();
+                handScript.DrawCard();
                 break;
             case CARD_EFFECT.GAP_DOUBLE:
                 HandleGapDouble();

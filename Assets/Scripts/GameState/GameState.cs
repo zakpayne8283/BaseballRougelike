@@ -7,7 +7,11 @@ public class GameState : MonoBehaviour
 {
     [SerializeField] public GameObject fieldOfPlay;
     [SerializeField] public GameObject scoreBug;
-    [SerializeField] public GameObject players; 
+    [SerializeField] public GameObject players;
+
+    [SerializeField] public GameObject handObject;
+    private HandActions handScript;
+
 
     GameStateStruct currentGameState;
 
@@ -29,6 +33,9 @@ public class GameState : MonoBehaviour
     void Start()
     {
         currentGameState = new GameStateStruct(topInning, inning, awayScore, homeScore, outs, runnerOnFirst, runnerOnSecond, runnerOnThird, changeInning);
+
+        // Get the hand script on setup
+        handScript = handObject.GetComponent<HandActions>();
     }
 
     // Update is called once per frame
@@ -105,7 +112,13 @@ public class GameState : MonoBehaviour
         }
 
         // Handle the effect of the played card
-        HandleCardEffectLogic.Start(ref currentGameState, _effect);
+        HandleCardEffectLogic.Start(ref currentGameState, _effect, handScript);
+
+        // If we're changing innings, reset the deck
+        if (currentGameState.changeInning)
+        {
+            handScript.ResetDeck();
+        }
     }
 
     private void CheckForEndState()

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class HandActions : MonoBehaviour
 {
     [SerializeField] private Deck deck;
+    private Deck deckDefaultState;      // Keep this so we can reset the deck between innings
 
     [SerializeField] private Transform handArea;
 
@@ -18,10 +19,9 @@ public class HandActions : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        for (int i = 0; i < startingHandSize; i++)
-        {
-            DrawCard();
-        }
+        deckDefaultState = deck;
+
+        DrawStartingHand();
     }
 
     // Update is called once per frame
@@ -45,5 +45,26 @@ public class HandActions : MonoBehaviour
 
         // Assign card data to the UI
         cardObject.transform.Find("Card Name").GetComponent<TMP_Text>().text = drawnCard.cardName;
+    }
+
+    public void ResetDeck()
+    {
+        deck = deckDefaultState;
+        deck.Randomize();
+
+        foreach (Transform child in handArea)
+        {
+            Destroy(child.gameObject);
+        }
+
+        DrawStartingHand();
+    }
+
+    private void DrawStartingHand()
+    {
+        for (int i = 0; i < startingHandSize; i++)
+        {
+            DrawCard();
+        }
     }
 }
