@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
 
     private Color activeColor = Color.red;
 
+    public bool currentPlayer = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,11 +37,13 @@ public class Player : MonoBehaviour
 
     public void SetCurrent()
     {
+        currentPlayer = true;
         BackgroundImageRef.color = activeColor;
     }
 
     public void UnsetCurrent()
     {
+        currentPlayer = false;
         SetBackgroundToDefaultColor();     
     }
 

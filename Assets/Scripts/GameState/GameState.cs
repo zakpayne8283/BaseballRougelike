@@ -11,22 +11,24 @@ public class GameState : MonoBehaviour
 
     GameStateStruct currentGameState;
 
-    private bool topInning = true;
-    private int inning = 1;
+    // DEFAULT VALUES OF GAME STATE
+    // TODO: Find better way to set this up
+    private readonly bool topInning = true;
+    private readonly int inning = 1;
+    private readonly int awayScore = 0;
+    private readonly int homeScore = 0;
+    private readonly int outs = 0;
+    private readonly bool runnerOnFirst = false;
+    private readonly bool runnerOnSecond = false;
+    private readonly bool runnerOnThird = false;
+    private readonly bool changeInning = false;
 
-    private int awayScore = 0;
-    private int homeScore = 0;
-
-    private int outs = 0;
-
-    private bool runnerOnFirst = false;
-    private bool runnerOnSecond = false;
-    private bool runnerOnThird = false;
+    private bool GAME_ENDED = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        currentGameState = new GameStateStruct(topInning, inning, awayScore, homeScore, outs, runnerOnFirst, runnerOnSecond, runnerOnThird);
+        currentGameState = new GameStateStruct(topInning, inning, awayScore, homeScore, outs, runnerOnFirst, runnerOnSecond, runnerOnThird, changeInning);
     }
 
     // Update is called once per frame
@@ -61,12 +63,18 @@ public class GameState : MonoBehaviour
         PlayersInit playersScript = players.GetComponent<PlayersInit>();
         if (playersScript != null)
         {
-            playersScript.SetNextPlayer();
+            playersScript.SetNextPlayer(currentGameState.changeInning);
         }
+
+        // Change inning alwyas false after updating UI
+        // UI should be updated with new inning already, so we want to default back to no change afterwards
+        currentGameState.changeInning = false;
     }
 
     public void HandleCardEffect(Card card)
     {
+        // TODO: Move modification logic into Card code
+
         // Set the effect to look for
         CARD_EFFECT _effect = card.cardEffect;
 
@@ -109,7 +117,9 @@ public struct GameStateStruct
     public bool runnerOnSecond;
     public bool runnerOnThird;
 
-    public GameStateStruct(bool _topInning, int _inning, int _awayScore, int _homeScore, int _outs, bool _first, bool _second, bool _third)
+    public bool changeInning;
+
+    public GameStateStruct(bool _topInning, int _inning, int _awayScore, int _homeScore, int _outs, bool _first, bool _second, bool _third, bool _changeInning)
     {
         topInning = _topInning;
         inning = _inning;
@@ -119,10 +129,11 @@ public struct GameStateStruct
         runnerOnFirst = _first;
         runnerOnSecond = _second;
         runnerOnThird = _third;
+        changeInning = _changeInning;
     }
 
     public GameStateStruct copyCurrentState()
     {
-        return new GameStateStruct(topInning, inning, awayScore, homeScore, outs, runnerOnFirst, runnerOnSecond, runnerOnThird);
+        return new GameStateStruct(topInning, inning, awayScore, homeScore, outs, runnerOnFirst, runnerOnSecond, runnerOnThird, changeInning);
     }
 }

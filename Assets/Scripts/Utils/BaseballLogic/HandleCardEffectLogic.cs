@@ -234,6 +234,7 @@ public class HandleCardEffectLogic
         _gameState.outs = 0;
         _gameState.topInning = !_gameState.topInning;
         if(_gameState.topInning) _gameState.inning++;
+        _gameState.changeInning = true;
     }
 
     /// <summary>

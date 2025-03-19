@@ -25,7 +25,10 @@ public class PlayersInit : MonoBehaviour
     };
 
     private List<GameObject> awayPlayers = new List<GameObject>();
+    private List<GameObject> homePlayers = new List<GameObject>();
     public GameObject currentPlayer;
+
+    private bool topInning = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -51,6 +54,28 @@ public class PlayersInit : MonoBehaviour
             i++;
         }
 
+        // Create the hidden home team lineup
+        i = 0;
+        while (i < defaultLineup.Length)
+        {
+            // Create a new player prefab for that lineup spot
+            GameObject playerObject = Instantiate(playerPrefab, playerArea);
+
+            // Update ]the prefab text
+            playerObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = $"Player #{i + 10}"; // +10 -> +1 for display, +9 because second lineup
+
+            // Set the player type from the default values
+            playerObject.GetComponent<Player>().PlayerType = defaultLineup[i];
+
+            playerObject.SetActive(false);
+
+            // Add player to list of players
+            homePlayers.Add(playerObject);
+
+            // Increment
+            i++;
+        }
+
         SetNextPlayer();
     }
 
@@ -60,7 +85,7 @@ public class PlayersInit : MonoBehaviour
         
     }
 
-    public void SetNextPlayer()
+    public void SetNextPlayer(bool changeInning=false)
     {
         Player playerScript;
 
@@ -68,6 +93,13 @@ public class PlayersInit : MonoBehaviour
         if (currentPlayer == null)
         {
             currentPlayer = awayPlayers.First();
+
+            // Get the current player script and set it to active;
+            playerScript = currentPlayer.GetComponent<Player>();
+            if (playerScript != null)
+            {
+                playerScript.SetCurrent();
+            }
         }
         // Otherwise find the next one
         else
@@ -80,21 +112,95 @@ public class PlayersInit : MonoBehaviour
                 playerScript.UnsetCurrent();
             }
 
-            // Then find the next one
-            currentPlayer = awayPlayers.SkipWhile(x => x != currentPlayer).Skip(1).FirstOrDefault();
-
-            // End of list, go to first
-            if (currentPlayer == null)
+            // Set the next batter
+            // We do this whether we're changing top/bottom because that batter will be up next for that team either way
+            if (topInning)
             {
-                currentPlayer = awayPlayers.First();
-            }
-        }
+                // Then find the next one
+                currentPlayer = awayPlayers.SkipWhile(x => x != currentPlayer).Skip(1).FirstOrDefault();
 
-        // Get the current player script and set it to active;
-        playerScript = currentPlayer.GetComponent<Player>();
-        if (playerScript != null)
-        {
-            playerScript.SetCurrent();
+                // End of list, go to first
+                if (currentPlayer == null)
+                {
+                    currentPlayer = awayPlayers.First();
+                }
+            }
+            else
+            {
+                // Then find the next one
+                currentPlayer = homePlayers.SkipWhile(x => x != currentPlayer).Skip(1).FirstOrDefault();
+
+                // End of list, go to first
+                if (currentPlayer == null)
+                {
+                    currentPlayer = homePlayers.First();
+                }
+            }
+
+            // Get the current player script and set it to active;
+            playerScript = currentPlayer.GetComponent<Player>();
+            if (playerScript != null)
+            {
+                playerScript.SetCurrent();
+            }
+
+            // Change the top/bottom of the inning
+            if (changeInning)
+            {
+                topInning = !topInning;
+
+                // set currentPlayer value to the next player for the other team
+                if (topInning)
+                {
+                    currentPlayer = awayPlayers.Where(x => x.GetComponent<Player>().currentPlayer).FirstOrDefault();
+
+                    if (currentPlayer == null)
+                    {
+                        currentPlayer = awayPlayers.First();
+                    }
+                }
+                else
+                {
+                    currentPlayer = homePlayers.Where(x => x.GetComponent<Player>().currentPlayer).FirstOrDefault();
+
+                    if (currentPlayer == null)
+                    {
+                        currentPlayer = homePlayers.First();
+
+                        playerScript = currentPlayer.GetComponent<Player>();
+                        if (playerScript != null)
+                        {
+                            playerScript.SetCurrent();
+                        }
+                    }
+                }
+
+                // Hide all elements of current team and unhide other team
+                if (topInning)
+                {
+                    foreach (GameObject _player in homePlayers)
+                    {
+                        _player.SetActive(false);
+                    }
+
+                    foreach(GameObject _player in awayPlayers)
+                    {
+                        _player.SetActive(true);
+                    }
+                }
+                else
+                {
+                    foreach (GameObject _player in awayPlayers)
+                    {
+                        _player.SetActive(false);
+                    }
+
+                    foreach(GameObject _player in homePlayers)
+                    {
+                        _player.SetActive(true);
+                    }
+                }
+            }
         }
     }
 }
