@@ -40,11 +40,17 @@ public class GameState : MonoBehaviour
     public void PlayCard(Card card)
     {
         HandleCardEffect(card);
+        CheckForEndState();
         UpdateUI();
     }
 
     public void UpdateUI()
     {
+        if (GAME_ENDED)
+        {
+            EndGame();
+        }
+
         // Update the field of play (e.g. where runners are)
         FieldOfPlayManager fieldScript = fieldOfPlay.GetComponent<FieldOfPlayManager>();
         if (fieldScript != null)
@@ -100,6 +106,29 @@ public class GameState : MonoBehaviour
 
         // Handle the effect of the played card
         HandleCardEffectLogic.Start(ref currentGameState, _effect);
+    }
+
+    private void CheckForEndState()
+    {
+        // Game ends when:
+        // End of 9th (or higher) inning and one team has a higher score
+        if (inning >= 9)
+        {
+            if (awayScore > homeScore)
+            {
+                GAME_ENDED = true;
+            }
+            else if (homeScore > awayScore)
+            {
+                GAME_ENDED = true;
+            }
+        }
+    }
+
+    private void EndGame()
+    {
+        //
+        Application.Quit();
     }
 }
 
