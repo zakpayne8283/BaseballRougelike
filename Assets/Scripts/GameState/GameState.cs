@@ -36,6 +36,7 @@ public class GameState : MonoBehaviour
 
         // Get the hand script on setup
         handScript = handObject.GetComponent<HandActions>();
+        handScript.DrawStartingHand();
     }
 
     // Update is called once per frame
@@ -78,6 +79,9 @@ public class GameState : MonoBehaviour
         {
             playersScript.SetNextPlayer(currentGameState.changeInning);
         }
+
+        // Update the card texts for the next batter
+        handScript.UpdateCardTextBasedOnMods();
 
         // Change inning alwyas false after updating UI
         // UI should be updated with new inning already, so we want to default back to no change afterwards

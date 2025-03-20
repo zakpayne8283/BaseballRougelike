@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31fef23c1c8a40e45a426d762d7f192c, type: 3}
-  m_Name: Bloop Single
+  m_Name: Full Count Walk
   m_EditorClassIdentifier: 
-  cardName: Bloop Single
-  cardEffect: 1
+  cardName: 3-2 Walk
+  cardEffect: 9
   cardMods:
-  - playerType: 2
-    newEffect: 6
-    improvement: 0
+  - playerType: 1
+    newEffect: 1
+    improvement: 1

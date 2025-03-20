@@ -42,7 +42,7 @@ public class PlayersInit : MonoBehaviour
             GameObject playerObject = Instantiate(playerPrefab, playerArea);
 
             // Update the prefab text
-            playerObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = $"Player #{i + 1}";
+            playerObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = $"Player #{i + 1}{playerTypeInName(defaultLineup[i])}";
 
             // Set the player type from the default values
             playerObject.GetComponent<Player>().PlayerType = defaultLineup[i]; 
@@ -62,7 +62,7 @@ public class PlayersInit : MonoBehaviour
             GameObject playerObject = Instantiate(playerPrefab, playerArea);
 
             // Update ]the prefab text
-            playerObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = $"Player #{i + 10}"; // +10 -> +1 for display, +9 because second lineup
+            playerObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = $"Player #{i + 10}{playerTypeInName(defaultLineup[i])}"; // +10 -> +1 for display, +9 because second lineup
 
             // Set the player type from the default values
             playerObject.GetComponent<Player>().PlayerType = defaultLineup[i];
@@ -113,29 +113,7 @@ public class PlayersInit : MonoBehaviour
             }
 
             // Set the next batter
-            // We do this whether we're changing top/bottom because that batter will be up next for that team either way
-            if (topInning)
-            {
-                // Then find the next one
-                currentPlayer = awayPlayers.SkipWhile(x => x != currentPlayer).Skip(1).FirstOrDefault();
-
-                // End of list, go to first
-                if (currentPlayer == null)
-                {
-                    currentPlayer = awayPlayers.First();
-                }
-            }
-            else
-            {
-                // Then find the next one
-                currentPlayer = homePlayers.SkipWhile(x => x != currentPlayer).Skip(1).FirstOrDefault();
-
-                // End of list, go to first
-                if (currentPlayer == null)
-                {
-                    currentPlayer = homePlayers.First();
-                }
-            }
+            currentPlayer = findNextActivePlayer();
 
             // Get the current player script and set it to active;
             playerScript = currentPlayer.GetComponent<Player>();
@@ -202,5 +180,46 @@ public class PlayersInit : MonoBehaviour
                 }
             }
         }
+    }
+
+    private string playerTypeInName(PLAYER_TYPE lineupSlotType)
+    {
+        string output = "";
+
+        if (lineupSlotType != PLAYER_TYPE.NONE)
+        {
+            switch (lineupSlotType)
+            {
+                case PLAYER_TYPE.CONTACT:
+                    output += "(C)";
+                    break;
+                case PLAYER_TYPE.POWER:
+                    output += "(P)";
+                    break;
+                case PLAYER_TYPE.SPEED:
+                    output += "(S)";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return output;
+    }
+
+    public GameObject findNextActivePlayer()
+    {
+        List<GameObject> lineupToUse = (topInning ? awayPlayers : homePlayers);
+
+        // Then find the next one
+        GameObject nextPlayer = lineupToUse.SkipWhile(x => x != currentPlayer).Skip(1).FirstOrDefault();
+
+        // End of list, go to first
+        if (nextPlayer == null)
+        {
+            nextPlayer = lineupToUse.First();
+        }
+
+        return nextPlayer;
     }
 }

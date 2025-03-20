@@ -27,7 +27,10 @@ public class HandActions : MonoBehaviour
 
         playerScript = playersObject.GetComponent<PlayersInit>();
 
-        DrawStartingHand();
+        // DrawStartingHand();
+
+        // Update all visual card texts as needed
+        UpdateCardTextBasedOnMods();
     }
 
     // Update is called once per frame
@@ -51,9 +54,6 @@ public class HandActions : MonoBehaviour
 
         // Assign card data to the UI
         cardObject.transform.Find("Card Name").GetComponent<TMP_Text>().text = drawnCard.cardName;
-
-        // Update all visual card texts as needed
-        UpdateCardTextBasedOnMods();
     }
 
     public void ResetDeck()
@@ -69,7 +69,7 @@ public class HandActions : MonoBehaviour
         DrawStartingHand();
     }
 
-    private void DrawStartingHand()
+    public void DrawStartingHand()
     {
         for (int i = 0; i < startingHandSize; i++)
         {
@@ -77,7 +77,7 @@ public class HandActions : MonoBehaviour
         }
     }
 
-    private void UpdateCardTextBasedOnMods()
+    public void UpdateCardTextBasedOnMods()
     {
         // Get the current player type
         PLAYER_TYPE currentPlayerType = playerScript.currentPlayer.GetComponent<Player>().PlayerType;

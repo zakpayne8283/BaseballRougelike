@@ -10,17 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31fef23c1c8a40e45a426d762d7f192c, type: 3}
-  m_Name: Gap Double
+  m_Name: Line Drive
   m_EditorClassIdentifier: 
-  cardName: Gap Double
-  cardEffect: 3
+  cardName: Line Drive
+  cardEffect: 1
   cardMods:
-  - playerType: 3
-    newEffect: 5
-    improvement: 1
-  - playerType: 1
-    newEffect: 1
-    improvement: 0
   - playerType: 2
-    newEffect: 6
+    newEffect: 2
     improvement: 1

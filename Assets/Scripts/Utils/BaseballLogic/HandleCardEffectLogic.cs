@@ -20,16 +20,38 @@ public class HandleCardEffectLogic
 
         switch (cardEffect)
         {
-            case CARD_EFFECT.BASE_HIT:
-                HandleBaseHit();
+            case CARD_EFFECT.SINGLE:
+                HandleSingle();
                 handScript.DrawCard();
                 break;
-            case CARD_EFFECT.GAP_DOUBLE:
-                HandleGapDouble();
+            case CARD_EFFECT.DOUBLE:
+                HandleDouble();
                 handScript.DrawCard();
                 break;
-            case CARD_EFFECT.GROUND_OUT:
+            case CARD_EFFECT.TRIPLE:
+                HandleTriple();
+                handScript.DrawCard();
+                break;
+            case CARD_EFFECT.HOME_RUN:
+                HandleHomeRun();
+                handScript.DrawCard();
+                break;
+            case CARD_EFFECT.GROUNDOUT:
                 HandleGroundOut();
+                break;
+            case CARD_EFFECT.FLYOUT:
+                HandleFlyOut();
+                break;
+            case CARD_EFFECT.STRIKEOUT:
+                HandleStrikeOut();
+                break;
+            case CARD_EFFECT.STRIKEOUT_ON_BASE:
+                HandleStrikeOutOnBase();
+                handScript.DrawCard();
+                break;
+            case CARD_EFFECT.WALK:
+                HandleWalk();
+                handScript.DrawCard();
                 break;
             case CARD_EFFECT.DEFAULT_NO_EFFECT:
                 break;
@@ -42,7 +64,7 @@ public class HandleCardEffectLogic
     /// <summary>
     /// CARD_EFFECT.BASE_HIT -- all runners move one base
     /// </summary>
-    private static void HandleBaseHit()
+    private static void HandleSingle()
     {
         if (_gameState.runnerOnThird)
         {
@@ -65,7 +87,7 @@ public class HandleCardEffectLogic
     /// <summary>
     /// CARD_EFFECT.GAP_DOUBLE -- move all runners two bases
     /// </summary>
-    public static void HandleGapDouble()
+    public static void HandleDouble()
     {
         if (_gameState.runnerOnThird)
         {
@@ -83,6 +105,46 @@ public class HandleCardEffectLogic
         }
 
         _gameState.runnerOnSecond = true;
+    }
+
+    public static void HandleTriple()
+    {
+        if (_gameState.runnerOnThird)
+        {
+            AdvanceRunner(3, 3);
+        }
+
+        if (_gameState.runnerOnSecond)
+        {
+            AdvanceRunner(2, 3);
+        }
+
+        if (_gameState.runnerOnFirst)
+        {
+            AdvanceRunner(1, 3);
+        }
+
+        _gameState.runnerOnThird = true;
+    }
+
+    public static void HandleHomeRun()
+    {
+        if (_gameState.runnerOnThird)
+        {
+            AdvanceRunner(3, 4);
+        }
+
+        if (_gameState.runnerOnSecond)
+        {
+            AdvanceRunner(2, 4);
+        }
+
+        if (_gameState.runnerOnFirst)
+        {
+            AdvanceRunner(1, 4);
+        }
+
+        ScoreRun();
     }
 
     /// <summary>
@@ -209,6 +271,97 @@ public class HandleCardEffectLogic
         }
     }
 
+    public static void HandleFlyOut()
+    {
+        if (_gameState.outs >= 2)
+        {
+            TurnOverInning();
+        }
+        else
+        {
+            if (_gameState.runnerOnThird)
+            {
+                AdvanceRunner(3, 1);
+            }
+
+            _gameState.outs++;
+        }
+    }
+
+    public static void HandleStrikeOut()
+    {
+        if (_gameState.outs >= 2)
+        {
+            TurnOverInning();
+        }
+        else
+        {
+            _gameState.outs++;
+        }
+    }
+
+    public static void HandleStrikeOutOnBase()
+    {
+        // Handle unusual cases first
+        // no drop 3rd strike if 1st is occupied, unless there's 2 outs
+        if (_gameState.outs < 2 && _gameState.runnerOnFirst && !BasesAreLoaded())
+        {
+            _gameState.outs++;
+        }
+        else if (BasesAreLoaded())
+        {
+            // Bases loaded gets a double play
+            if (_gameState.outs >= 1)
+            {
+                TurnOverInning();
+            }
+            else
+            {
+                _gameState.outs = 2;
+            }
+        }
+        else
+        {
+            if (_gameState.runnerOnSecond)
+            {
+                AdvanceRunner(2, 1);
+            }
+            
+            if (_gameState.runnerOnFirst)
+            {
+                AdvanceRunner(1, 1);
+            }
+
+            _gameState.runnerOnFirst = true;
+        }
+    }
+
+    public static void HandleWalk()
+    {
+        // Need to move all runners where there's an available force
+        if (BasesAreLoaded())
+        {
+            AdvanceRunner(3, 1);
+            AdvanceRunner(2, 1);
+            AdvanceRunner(1, 1);
+        }
+        else
+        {
+            if (_gameState.runnerOnSecond && _gameState.runnerOnFirst)
+            {
+                AdvanceRunner(2, 1);
+                AdvanceRunner(1, 1);
+            }
+
+            if (_gameState.runnerOnFirst)
+            {
+                AdvanceRunner(1, 1);
+            }
+        }
+
+        _gameState.runnerOnFirst = true;
+    }
+
     /// <summary>
     /// Run scores, increase active team score
     /// </summary>
@@ -288,7 +441,19 @@ public class HandleCardEffectLogic
         }
         else if (currentBase == 3)
         {
+            _gameState.runnerOnThird = false;
+
             ScoreRun();
         }
+    }
+
+    private static bool BasesAreLoaded()
+    {
+        if (_gameState.runnerOnFirst && _gameState.runnerOnSecond && _gameState.runnerOnThird)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

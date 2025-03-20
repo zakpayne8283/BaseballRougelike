@@ -18,12 +18,16 @@ public class Card : ScriptableObject
 public enum CARD_EFFECT
 {
     DEFAULT_NO_EFFECT,
-    BASE_HIT,
-    GROUND_OUT,
-    GAP_DOUBLE,
-    WEAK_FLYOUT,
-    HUSTLE_TRIPLE,
-    HOME_RUN
+    SINGLE,
+    DOUBLE,
+    TRIPLE,
+    HOME_RUN,
+    GROUNDOUT,
+    FLYOUT,
+    STRIKEOUT,
+    STRIKEOUT_ON_BASE,
+    WALK
+
 }
 
 [System.Serializable]
