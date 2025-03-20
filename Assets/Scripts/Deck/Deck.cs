@@ -32,4 +32,18 @@ public class Deck : MonoBehaviour
         System.Random random = new System.Random();
         cards = cards.OrderBy(card => random.Next()).ToList();
     }
+
+    public Deck CopyToNewObject()
+    {
+        Deck copiedDeck = new Deck();
+        copiedDeck.cards = new List<Card>();
+        copiedDeck.cardBack = cardBack;
+
+        foreach (Card card in cards)
+        {
+            copiedDeck.cards.Add(card);
+        }
+
+        return copiedDeck;
+    }
 }

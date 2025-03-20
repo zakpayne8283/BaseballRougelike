@@ -36,6 +36,7 @@ public class GameState : MonoBehaviour
 
         // Get the hand script on setup
         handScript = handObject.GetComponent<HandActions>();
+        handScript.SetDefaultDeckState();
         handScript.DrawStartingHand();
     }
 

@@ -23,11 +23,7 @@ public class HandActions : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        deckDefaultState = deck;
-
         playerScript = playersObject.GetComponent<PlayersInit>();
-
-        // DrawStartingHand();
 
         // Update all visual card texts as needed
         UpdateCardTextBasedOnMods();
@@ -37,6 +33,11 @@ public class HandActions : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetDefaultDeckState()
+    {
+        deckDefaultState = deck.CopyToNewObject();
     }
 
     public void DrawCard()
@@ -58,7 +59,7 @@ public class HandActions : MonoBehaviour
 
     public void ResetDeck()
     {
-        deck = deckDefaultState;
+        deck = deckDefaultState.CopyToNewObject();
         deck.Randomize();
 
         foreach (Transform child in handArea)
