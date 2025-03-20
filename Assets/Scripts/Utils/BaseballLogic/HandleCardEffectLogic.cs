@@ -26,6 +26,7 @@ public class HandleCardEffectLogic
                 break;
             case CARD_EFFECT.GAP_DOUBLE:
                 HandleGapDouble();
+                handScript.DrawCard();
                 break;
             case CARD_EFFECT.GROUND_OUT:
                 HandleGroundOut();

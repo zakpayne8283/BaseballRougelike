@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +15,8 @@ public class HandActions : MonoBehaviour
     [SerializeField] private GameObject cardPrefab;
 
     [SerializeField] private GameObject gameManager;
+    [SerializeField] private GameObject playersObject;
+    private PlayersInit playerScript;
 
     private int startingHandSize = 5;
 
@@ -20,6 +24,8 @@ public class HandActions : MonoBehaviour
     void Start()
     {
         deckDefaultState = deck;
+
+        playerScript = playersObject.GetComponent<PlayersInit>();
 
         DrawStartingHand();
     }
@@ -45,6 +51,9 @@ public class HandActions : MonoBehaviour
 
         // Assign card data to the UI
         cardObject.transform.Find("Card Name").GetComponent<TMP_Text>().text = drawnCard.cardName;
+
+        // Update all visual card texts as needed
+        UpdateCardTextBasedOnMods();
     }
 
     public void ResetDeck()
@@ -65,6 +74,36 @@ public class HandActions : MonoBehaviour
         for (int i = 0; i < startingHandSize; i++)
         {
             DrawCard();
+        }
+    }
+
+    private void UpdateCardTextBasedOnMods()
+    {
+        // Get the current player type
+        PLAYER_TYPE currentPlayerType = playerScript.currentPlayer.GetComponent<Player>().PlayerType;
+
+        // Get the cards available
+        List<CardPrefab> cardPrefabs = handArea.GetComponentsInChildren<CardPrefab>().ToList();
+
+        foreach (CardPrefab cardPrefab in cardPrefabs)
+        {
+            Modification foundModification = cardPrefab.card.getCardModByPlayerType(currentPlayerType);
+
+            Color textColor = Color.black;
+
+            if (foundModification.newEffect != CARD_EFFECT.DEFAULT_NO_EFFECT)
+            {
+                if (foundModification.improvement)
+                {
+                    textColor = Color.green;
+                }
+                else
+                {
+                    textColor = Color.red;
+                }
+            }
+
+            cardPrefab.transform.Find("Card Name").GetComponent<TextMeshProUGUI>().color = textColor;
         }
     }
 }

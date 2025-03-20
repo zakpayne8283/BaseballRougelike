@@ -5,6 +5,7 @@ public class CardPrefab : MonoBehaviour
     public Card card;
 
     public GameObject gameManager;
+    public GameObject playersManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
