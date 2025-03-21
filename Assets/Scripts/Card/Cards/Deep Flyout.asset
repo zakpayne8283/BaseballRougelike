@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Deep Flyout
   m_EditorClassIdentifier: 
   cardName: Deep Flyout
-  cardEffect: 0
+  cardEffect: 6
   cardMods:
   - playerType: 2
     newEffect: 4

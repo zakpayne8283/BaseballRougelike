@@ -130,13 +130,15 @@ public class GameState : MonoBehaviour
     {
         // Game ends when:
         // End of 9th (or higher) inning and one team has a higher score
-        if (inning >= 9)
+        if (currentGameState.inning >= 9)
         {
-            if (awayScore > homeScore)
+            // Away team wins
+            if (currentGameState.awayScore > currentGameState.homeScore)
             {
                 GAME_ENDED = true;
             }
-            else if (homeScore > awayScore)
+            // Home team wins
+            else if (currentGameState.homeScore > currentGameState.awayScore)
             {
                 GAME_ENDED = true;
             }
