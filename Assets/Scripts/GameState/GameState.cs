@@ -7,7 +7,8 @@ public class GameState : MonoBehaviour
 {
     [SerializeField] public GameObject fieldOfPlay;
     [SerializeField] public GameObject scoreBug;
-    [SerializeField] public GameObject players;
+    [SerializeField] public GameObject playersManager;
+    private PlayersManager playersManagerScript;
 
     // Hand area object and script
     [SerializeField] public GameObject cardsManager;
@@ -82,12 +83,9 @@ public class GameState : MonoBehaviour
             scoreBugScript.UpdateFromGameState(currentGameState);
         }
 
-        // Update who the current player is in the player window
-        PlayersInit playersScript = players.GetComponent<PlayersInit>();
-        if (playersScript != null)
-        {
-            playersScript.SetNextPlayer(currentGameState.changeInning);
-        }
+        // Set the next active player
+        playersManagerScript.setNextPlayer(currentGameState.changeInning);
+        
 
         // Update the card texts for the next batter
         cardsManagerScript.updateCardTextBasedOnMods();
@@ -102,27 +100,22 @@ public class GameState : MonoBehaviour
         // Set the effect to look for
         CARD_EFFECT _effect = card.cardEffect;
 
-        // Load the players script and check the current active player type for modifications
-        PlayersInit playersScript = players.GetComponent<PlayersInit>();
-        if (playersScript != null)
+        // Get the current player type
+        PLAYER_TYPE currentPlayerType = playersManagerScript.currentPlayerScript.PlayerType;
+
+        // If player type is a special one
+        if (currentPlayerType != PLAYER_TYPE.NONE)
         {
-            // Get the current player type
-            PLAYER_TYPE currentPlayerType = playersScript.currentPlayer.GetComponent<Player>().PlayerType;
+            // Check for modifications for that player type
+            Modification foundModification = card.getCardModByPlayerType(currentPlayerType);
 
-            // If player type is a special one
-            if (currentPlayerType != PLAYER_TYPE.NONE)
+            if (foundModification.newEffect != CARD_EFFECT.DEFAULT_NO_EFFECT)
             {
-                // Check for modifications for that player type
-                Modification foundModification = card.getCardModByPlayerType(currentPlayerType);
-
-                if (foundModification.newEffect != CARD_EFFECT.DEFAULT_NO_EFFECT)
-                {
-                    _effect = foundModification.newEffect;
-                }
+                _effect = foundModification.newEffect;
             }
         }
 
-        logger.WriteLog($"{playersScript.getCurrentPlayerAsClass().PlayerType},{_effect.ToString()},{currentGameState.topInning}");
+        logger.WriteLog($"{playersManagerScript.currentPlayerScript.PlayerType},{_effect.ToString()},{currentGameState.topInning}");
 
         // Handle the effect of the played card
         HandleCardEffectLogic.Start(ref currentGameState, _effect, cardsManagerScript);
@@ -165,6 +158,8 @@ public class GameState : MonoBehaviour
     private void initializeScripts()
     {
         cardsManagerScript = cardsManager.GetComponent<CardsManager>();
+        playersManagerScript = playersManager.GetComponent<PlayersManager>();
+        
     }
 }
 

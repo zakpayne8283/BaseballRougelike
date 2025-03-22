@@ -19,8 +19,8 @@ public class CardsManager : MonoBehaviour
     [SerializeField] private GameObject gameStateManager;
 
     // Player lineup area
-    [SerializeField] private GameObject playersObject;
-    private PlayersInit playerScript;
+    [SerializeField] private GameObject playersManager;
+    private PlayersManager playersManagerScript;
 
     [SerializeField] private DeckObj deck;
 
@@ -75,7 +75,7 @@ public class CardsManager : MonoBehaviour
     public void updateCardTextBasedOnMods()
     {
         // Get the current player type
-        PLAYER_TYPE currentPlayerType = playerScript.currentPlayer.GetComponent<Player>().PlayerType;
+        PLAYER_TYPE currentPlayerType = playersManagerScript.currentPlayerScript.PlayerType;
 
         // Get the cards available
         List<CardPrefab> cardPrefabs = handArea.GetComponentsInChildren<CardPrefab>().ToList();
@@ -105,7 +105,7 @@ public class CardsManager : MonoBehaviour
     private void initializeScripts()
     {
         // PlayerInit.cs
-        playerScript = playersObject.GetComponent<PlayersInit>();
+        playersManagerScript = playersManager.GetComponent<PlayersManager>();
     }
 
     public DeckObj getDeck()
