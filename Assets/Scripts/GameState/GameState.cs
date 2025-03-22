@@ -12,6 +12,7 @@ public class GameState : MonoBehaviour
     [SerializeField] public GameObject handObject;
     private HandActions handScript;
 
+    private CustomLogger logger;
 
     GameStateStruct currentGameState;
 
@@ -32,6 +33,8 @@ public class GameState : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        logger = new CustomLogger();
+
         currentGameState = new GameStateStruct(topInning, inning, awayScore, homeScore, outs, runnerOnFirst, runnerOnSecond, runnerOnThird, changeInning);
 
         // Get the hand script on setup
@@ -91,8 +94,6 @@ public class GameState : MonoBehaviour
 
     public void HandleCardEffect(Card card)
     {
-        // TODO: Move modification logic into Card code
-
         // Set the effect to look for
         CARD_EFFECT _effect = card.cardEffect;
 
@@ -115,6 +116,8 @@ public class GameState : MonoBehaviour
                 }
             }
         }
+
+        logger.WriteLog($"{playersScript.getCurrentPlayerAsClass().PlayerType},{_effect.ToString()},{currentGameState.topInning}");
 
         // Handle the effect of the played card
         HandleCardEffectLogic.Start(ref currentGameState, _effect, handScript);

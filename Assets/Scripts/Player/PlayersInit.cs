@@ -222,4 +222,9 @@ public class PlayersInit : MonoBehaviour
 
         return nextPlayer;
     }
+
+    public Player getCurrentPlayerAsClass()
+    {
+        return currentPlayer.GetComponent<Player>();
+    }
 }
