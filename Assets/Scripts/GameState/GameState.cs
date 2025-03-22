@@ -10,6 +10,10 @@ public class GameState : MonoBehaviour
     [SerializeField] public GameObject players;
 
     [SerializeField] public GameObject handObject;
+
+    [SerializeField] public GameObject deckManager;
+    private DeckManager deckManagerScript;
+
     private HandActions handScript;
 
     private CustomLogger logger;
@@ -33,12 +37,15 @@ public class GameState : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Get all the scripts setup
+        initializeScripts();
+
+        // Setup custom logger
         logger = new CustomLogger();
 
         currentGameState = new GameStateStruct(topInning, inning, awayScore, homeScore, outs, runnerOnFirst, runnerOnSecond, runnerOnThird, changeInning);
 
         // Get the hand script on setup
-        handScript = handObject.GetComponent<HandActions>();
         handScript.SetDefaultDeckState();
         handScript.DrawStartingHand();
     }
@@ -152,6 +159,16 @@ public class GameState : MonoBehaviour
     {
         //
         Application.Quit();
+    }
+
+    /// <summary>
+    /// Gets all of the required game scripts from other managers
+    /// </summary>
+    private void initializeScripts()
+    {
+        // DeckManager.cs
+        deckManagerScript = deckManager.GetComponent<DeckManager>();
+        handScript = handObject.GetComponent<HandActions>();
     }
 }
 
