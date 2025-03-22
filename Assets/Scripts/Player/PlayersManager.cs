@@ -3,7 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class PlayersInit : MonoBehaviour
+public class PlayersManager : MonoBehaviour
 {
     // Player prefab to create when making the lineups
     [SerializeField] public GameObject playerPrefab;
@@ -26,57 +26,18 @@ public class PlayersInit : MonoBehaviour
 
     private List<GameObject> awayPlayers = new List<GameObject>();
     private List<GameObject> homePlayers = new List<GameObject>();
+
     public GameObject currentPlayer;
+    public Player currentPlayerScript;
 
     private bool topInning = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        int i = 0;
+        initailizeTeams();
 
-        // Generate the away team lineup
-        while (i < defaultLineup.Length)
-        {
-            // Create a new player prefab for that lineup spot
-            GameObject playerObject = Instantiate(playerPrefab, playerArea);
-
-            // Update the prefab text
-            playerObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = $"Player #{i + 1}{playerTypeInName(defaultLineup[i])}";
-
-            // Set the player type from the default values
-            playerObject.GetComponent<Player>().PlayerType = defaultLineup[i]; 
-
-            // Add player to list of players
-            awayPlayers.Add(playerObject);
-
-            // Increment
-            i++;
-        }
-
-        // Create the hidden home team lineup
-        i = 0;
-        while (i < defaultLineup.Length)
-        {
-            // Create a new player prefab for that lineup spot
-            GameObject playerObject = Instantiate(playerPrefab, playerArea);
-
-            // Update ]the prefab text
-            playerObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = $"Player #{i + 10}{playerTypeInName(defaultLineup[i])}"; // +10 -> +1 for display, +9 because second lineup
-
-            // Set the player type from the default values
-            playerObject.GetComponent<Player>().PlayerType = defaultLineup[i];
-
-            playerObject.SetActive(false);
-
-            // Add player to list of players
-            homePlayers.Add(playerObject);
-
-            // Increment
-            i++;
-        }
-
-        SetNextPlayer();
+        setNextPlayer();
     }
 
     // Update is called once per frame
@@ -85,42 +46,31 @@ public class PlayersInit : MonoBehaviour
         
     }
 
-    public void SetNextPlayer(bool changeInning=false)
+    public void setNextPlayer(bool changeInning=false)
     {
-        Player playerScript;
-
         // If there is no current player, we're setting the game up, set to lineup spot 1
         if (currentPlayer == null)
         {
             currentPlayer = awayPlayers.First();
 
             // Get the current player script and set it to active;
-            playerScript = currentPlayer.GetComponent<Player>();
-            if (playerScript != null)
-            {
-                playerScript.SetCurrent();
-            }
+            currentPlayerScript = currentPlayer.GetComponent<Player>();
+            
+            // UI update to signify active
+            currentPlayerScript.SetCurrent();
         }
         // Otherwise find the next one
         else
         {
             // Start by removing the "current" status from the current active player
-            // Get the script attached to this game object, then unset it.
-            playerScript = currentPlayer.GetComponent<Player>();
-            if (playerScript != null)
-            {
-                playerScript.UnsetCurrent();
-            }
+            currentPlayerScript.UnsetCurrent();
 
             // Set the next batter
             currentPlayer = findNextActivePlayer();
 
             // Get the current player script and set it to active;
-            playerScript = currentPlayer.GetComponent<Player>();
-            if (playerScript != null)
-            {
-                playerScript.SetCurrent();
-            }
+            currentPlayerScript = currentPlayer.GetComponent<Player>();
+            currentPlayerScript.SetCurrent();
 
             // Change the top/bottom of the inning
             if (changeInning)
@@ -144,14 +94,12 @@ public class PlayersInit : MonoBehaviour
                     if (currentPlayer == null)
                     {
                         currentPlayer = homePlayers.First();
-
-                        playerScript = currentPlayer.GetComponent<Player>();
-                        if (playerScript != null)
-                        {
-                            playerScript.SetCurrent();
-                        }
                     }
                 }
+
+                // Set the script up
+                currentPlayerScript = currentPlayer.GetComponent<Player>();
+                currentPlayerScript.SetCurrent();
 
                 // Hide all elements of current team and unhide other team
                 if (topInning)
@@ -225,6 +173,52 @@ public class PlayersInit : MonoBehaviour
 
     public Player getCurrentPlayerAsClass()
     {
-        return currentPlayer.GetComponent<Player>();
+        return currentPlayerScript;
+    }
+
+    private void initailizeTeams()
+    {
+        int i = 0;
+
+        // Generate the away team lineup
+        while (i < defaultLineup.Length)
+        {
+            // Create a new player prefab for that lineup spot
+            GameObject playerObject = Instantiate(playerPrefab, playerArea);
+
+            // Update the prefab text
+            playerObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = $"Player #{i + 1}{playerTypeInName(defaultLineup[i])}";
+
+            // Set the player type from the default values
+            playerObject.GetComponent<Player>().PlayerType = defaultLineup[i]; 
+
+            // Add player to list of players
+            awayPlayers.Add(playerObject);
+
+            // Increment
+            i++;
+        }
+
+        // Create the hidden home team lineup
+        i = 0;
+        while (i < defaultLineup.Length)
+        {
+            // Create a new player prefab for that lineup spot
+            GameObject playerObject = Instantiate(playerPrefab, playerArea);
+
+            // Update ]the prefab text
+            playerObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = $"Player #{i + 10}{playerTypeInName(defaultLineup[i])}"; // +10 -> +1 for display, +9 because second lineup
+
+            // Set the player type from the default values
+            playerObject.GetComponent<Player>().PlayerType = defaultLineup[i];
+
+            playerObject.SetActive(false);
+
+            // Add player to list of players
+            homePlayers.Add(playerObject);
+
+            // Increment
+            i++;
+        }
     }
 }

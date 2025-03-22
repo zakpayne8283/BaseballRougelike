@@ -5,42 +5,41 @@ using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
-    [SerializeField] public GameObject fieldOfPlay;
-    [SerializeField] public GameObject scoreBug;
-    [SerializeField] public GameObject players;
+    [SerializeField] public GameObject fieldOfPlayManager;
+    private FieldOfPlayManager fieldOfPlayManagerScript;
+    [SerializeField] public GameObject scoreBugManager;
+    private ScoreBugManager scoreBugManagerScript;
+    [SerializeField] public GameObject playersManager;
+    private PlayersManager playersManagerScript;
 
-    [SerializeField] public GameObject handObject;
-    private HandActions handScript;
+    // Hand area object and script
+    [SerializeField] public GameObject cardsManager;
+    private CardsManager cardsManagerScript;
 
     private CustomLogger logger;
 
+    // Current state (inning, score, outs, etc.)
     GameStateStruct currentGameState;
-
-    // DEFAULT VALUES OF GAME STATE
-    // TODO: Find better way to set this up
-    private readonly bool topInning = true;
-    private readonly int inning = 1;
-    private readonly int awayScore = 0;
-    private readonly int homeScore = 0;
-    private readonly int outs = 0;
-    private readonly bool runnerOnFirst = false;
-    private readonly bool runnerOnSecond = false;
-    private readonly bool runnerOnThird = false;
-    private readonly bool changeInning = false;
 
     private bool GAME_ENDED = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Get all the scripts setup
+        initializeScripts();
+
+        // Setup custom logger
         logger = new CustomLogger();
 
-        currentGameState = new GameStateStruct(topInning, inning, awayScore, homeScore, outs, runnerOnFirst, runnerOnSecond, runnerOnThird, changeInning);
+        // Set the initial game state
+        initializeGameState();
 
-        // Get the hand script on setup
-        handScript = handObject.GetComponent<HandActions>();
-        handScript.SetDefaultDeckState();
-        handScript.DrawStartingHand();
+        // draw cards for the game to start
+        cardsManagerScript.drawStartingHand();
+
+        // Update the card texts now because they will always be default otherwise
+        cardsManagerScript.updateCardTextBasedOnMods();
     }
 
     // Update is called once per frame
@@ -64,28 +63,16 @@ public class GameState : MonoBehaviour
         }
 
         // Update the field of play (e.g. where runners are)
-        FieldOfPlayManager fieldScript = fieldOfPlay.GetComponent<FieldOfPlayManager>();
-        if (fieldScript != null)
-        {
-            fieldScript.UpdateFromGameState(currentGameState);
-        }
+        fieldOfPlayManagerScript.UpdateFromGameState(currentGameState);
 
         // Update the score bug as needed (inning, outs, score, etc.)
-        ScoreBugManager scoreBugScript = scoreBug.GetComponent<ScoreBugManager>();
-        if (scoreBugScript != null)
-        {
-            scoreBugScript.UpdateFromGameState(currentGameState);
-        }
+        scoreBugManagerScript.UpdateFromGameState(currentGameState);
 
-        // Update who the current player is in the player window
-        PlayersInit playersScript = players.GetComponent<PlayersInit>();
-        if (playersScript != null)
-        {
-            playersScript.SetNextPlayer(currentGameState.changeInning);
-        }
-
+        // Set the next active player
+        playersManagerScript.setNextPlayer(currentGameState.changeInning);
+        
         // Update the card texts for the next batter
-        handScript.UpdateCardTextBasedOnMods();
+        cardsManagerScript.updateCardTextBasedOnMods();
 
         // Change inning alwyas false after updating UI
         // UI should be updated with new inning already, so we want to default back to no change afterwards
@@ -97,35 +84,31 @@ public class GameState : MonoBehaviour
         // Set the effect to look for
         CARD_EFFECT _effect = card.cardEffect;
 
-        // Load the players script and check the current active player type for modifications
-        PlayersInit playersScript = players.GetComponent<PlayersInit>();
-        if (playersScript != null)
+        // Get the current player type
+        PLAYER_TYPE currentPlayerType = playersManagerScript.currentPlayerScript.PlayerType;
+
+        // If player type is a special one
+        if (currentPlayerType != PLAYER_TYPE.NONE)
         {
-            // Get the current player type
-            PLAYER_TYPE currentPlayerType = playersScript.currentPlayer.GetComponent<Player>().PlayerType;
+            // Check for modifications for that player type
+            Modification foundModification = card.getCardModByPlayerType(currentPlayerType);
 
-            // If player type is a special one
-            if (currentPlayerType != PLAYER_TYPE.NONE)
+            if (foundModification.newEffect != CARD_EFFECT.DEFAULT_NO_EFFECT)
             {
-                // Check for modifications for that player type
-                Modification foundModification = card.getCardModByPlayerType(currentPlayerType);
-
-                if (foundModification.newEffect != CARD_EFFECT.DEFAULT_NO_EFFECT)
-                {
-                    _effect = foundModification.newEffect;
-                }
+                _effect = foundModification.newEffect;
             }
         }
 
-        logger.WriteLog($"{playersScript.getCurrentPlayerAsClass().PlayerType},{_effect.ToString()},{currentGameState.topInning}");
+        // Logging for balance purposes
+        logger.WriteLog($"{playersManagerScript.currentPlayerScript.PlayerType},{_effect.ToString()},{currentGameState.topInning}");
 
         // Handle the effect of the played card
-        HandleCardEffectLogic.Start(ref currentGameState, _effect, handScript);
+        HandleCardEffectLogic.Start(ref currentGameState, _effect, cardsManagerScript);
 
         // If we're changing innings, reset the deck
         if (currentGameState.changeInning)
         {
-            handScript.ResetDeck();
+            cardsManagerScript.getDeck().resetToInitialState();
         }
     }
 
@@ -152,6 +135,23 @@ public class GameState : MonoBehaviour
     {
         //
         Application.Quit();
+    }
+
+    /// <summary>
+    /// Gets all of the required game scripts from other managers
+    /// </summary>
+    private void initializeScripts()
+    {
+        cardsManagerScript = cardsManager.GetComponent<CardsManager>();
+        fieldOfPlayManagerScript = fieldOfPlayManager.GetComponent<FieldOfPlayManager>();
+        playersManagerScript = playersManager.GetComponent<PlayersManager>();
+        scoreBugManagerScript = scoreBugManager.GetComponent<ScoreBugManager>();
+    }
+
+    private void initializeGameState()
+    {
+        // hard coded here because these values will likely never change
+        currentGameState = new GameStateStruct(true, 1, 0, 0, 0, false, false, false, false);
     }
 }
 

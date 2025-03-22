@@ -9,8 +9,8 @@ public class HandleCardEffectLogic
     /// </summary>
     /// <param name="currentGameState">[Ref] Game state provided by GameState.cs</param>
     /// <param name="cardEffect">Listed card effect</param>
-    /// <param name="handScript">Script that manages hand - used to draw a card</param>
-    public static void Start(ref GameStateStruct currentGameState, CARD_EFFECT cardEffect, HandActions handScript)
+    /// <param name="cardsManager">Script that manages hand - used to draw a card</param>
+    public static void Start(ref GameStateStruct currentGameState, CARD_EFFECT cardEffect, CardsManager cardsManager)
     {
         // TODO: Reconsider handScript
 
@@ -22,19 +22,19 @@ public class HandleCardEffectLogic
         {
             case CARD_EFFECT.SINGLE:
                 HandleSingle();
-                handScript.DrawCard();
+                cardsManager.drawCard();
                 break;
             case CARD_EFFECT.DOUBLE:
                 HandleDouble();
-                handScript.DrawCard();
+                cardsManager.drawCard();
                 break;
             case CARD_EFFECT.TRIPLE:
                 HandleTriple();
-                handScript.DrawCard();
+                cardsManager.drawCard();
                 break;
             case CARD_EFFECT.HOME_RUN:
                 HandleHomeRun();
-                handScript.DrawCard();
+                cardsManager.drawCard();
                 break;
             case CARD_EFFECT.GROUNDOUT:
                 HandleGroundOut();
@@ -47,11 +47,11 @@ public class HandleCardEffectLogic
                 break;
             case CARD_EFFECT.STRIKEOUT_ON_BASE:
                 HandleStrikeOutOnBase();
-                handScript.DrawCard();
+                cardsManager.drawCard();
                 break;
             case CARD_EFFECT.WALK:
                 HandleWalk();
-                handScript.DrawCard();
+                cardsManager.drawCard();
                 break;
             case CARD_EFFECT.DEFAULT_NO_EFFECT:
                 break;
