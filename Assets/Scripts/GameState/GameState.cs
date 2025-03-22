@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
-    [SerializeField] public GameObject fieldOfPlay;
-    [SerializeField] public GameObject scoreBug;
+    [SerializeField] public GameObject fieldOfPlayManager;
+    private FieldOfPlayManager fieldOfPlayManagerScript;
+    [SerializeField] public GameObject scoreBugManager;
+    private ScoreBugManager scoreBugManagerScript;
     [SerializeField] public GameObject playersManager;
     private PlayersManager playersManagerScript;
 
@@ -16,19 +18,8 @@ public class GameState : MonoBehaviour
 
     private CustomLogger logger;
 
+    // Current state (inning, score, outs, etc.)
     GameStateStruct currentGameState;
-
-    // DEFAULT VALUES OF GAME STATE
-    // TODO: Find better way to set this up
-    private readonly bool topInning = true;
-    private readonly int inning = 1;
-    private readonly int awayScore = 0;
-    private readonly int homeScore = 0;
-    private readonly int outs = 0;
-    private readonly bool runnerOnFirst = false;
-    private readonly bool runnerOnSecond = false;
-    private readonly bool runnerOnThird = false;
-    private readonly bool changeInning = false;
 
     private bool GAME_ENDED = false;
 
@@ -38,15 +29,17 @@ public class GameState : MonoBehaviour
         // Get all the scripts setup
         initializeScripts();
 
-        // Call
-        // cardsManagerScript.resetToInitialState();
-
         // Setup custom logger
         logger = new CustomLogger();
 
-        currentGameState = new GameStateStruct(topInning, inning, awayScore, homeScore, outs, runnerOnFirst, runnerOnSecond, runnerOnThird, changeInning);
+        // Set the initial game state
+        initializeGameState();
 
+        // draw cards for the game to start
         cardsManagerScript.drawStartingHand();
+
+        // Update the card texts now because they will always be default otherwise
+        cardsManagerScript.updateCardTextBasedOnMods();
     }
 
     // Update is called once per frame
@@ -70,23 +63,14 @@ public class GameState : MonoBehaviour
         }
 
         // Update the field of play (e.g. where runners are)
-        FieldOfPlayManager fieldScript = fieldOfPlay.GetComponent<FieldOfPlayManager>();
-        if (fieldScript != null)
-        {
-            fieldScript.UpdateFromGameState(currentGameState);
-        }
+        fieldOfPlayManagerScript.UpdateFromGameState(currentGameState);
 
         // Update the score bug as needed (inning, outs, score, etc.)
-        ScoreBugManager scoreBugScript = scoreBug.GetComponent<ScoreBugManager>();
-        if (scoreBugScript != null)
-        {
-            scoreBugScript.UpdateFromGameState(currentGameState);
-        }
+        scoreBugManagerScript.UpdateFromGameState(currentGameState);
 
         // Set the next active player
         playersManagerScript.setNextPlayer(currentGameState.changeInning);
         
-
         // Update the card texts for the next batter
         cardsManagerScript.updateCardTextBasedOnMods();
 
@@ -115,6 +99,7 @@ public class GameState : MonoBehaviour
             }
         }
 
+        // Logging for balance purposes
         logger.WriteLog($"{playersManagerScript.currentPlayerScript.PlayerType},{_effect.ToString()},{currentGameState.topInning}");
 
         // Handle the effect of the played card
@@ -158,8 +143,15 @@ public class GameState : MonoBehaviour
     private void initializeScripts()
     {
         cardsManagerScript = cardsManager.GetComponent<CardsManager>();
+        fieldOfPlayManagerScript = fieldOfPlayManager.GetComponent<FieldOfPlayManager>();
         playersManagerScript = playersManager.GetComponent<PlayersManager>();
-        
+        scoreBugManagerScript = scoreBugManager.GetComponent<ScoreBugManager>();
+    }
+
+    private void initializeGameState()
+    {
+        // hard coded here because these values will likely never change
+        currentGameState = new GameStateStruct(true, 1, 0, 0, 0, false, false, false, false);
     }
 }
 
