@@ -4,29 +4,36 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HandActions : MonoBehaviour
+/// <summary>
+/// Manages both the cards in hand and the cards in the deck
+/// </summary>
+public class CardsManager : MonoBehaviour
 {
-    // [SerializeField] private Deck deck;
-    // private Deck deckDefaultState;      // Keep this so we can reset the deck between innings
-
+    // Area where cards will be added to
     [SerializeField] private Transform handArea;
 
-    // Prefabs to use
+    // Prefabs to use for the cards
     [SerializeField] private GameObject cardPrefab;
 
-    [SerializeField] private GameObject gameManager;
+    // GameState.cs
+    [SerializeField] private GameObject gameStateManager;
+
+    // Player lineup area
     [SerializeField] private GameObject playersObject;
     private PlayersInit playerScript;
 
+    [SerializeField] private DeckObj deck;
+
+    // Cards in starting hand
     private int startingHandSize = 5;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerScript = playersObject.GetComponent<PlayersInit>();
+        initializeScripts();
 
         // Update all visual card texts as needed
-        UpdateCardTextBasedOnMods();
+        // updateCardTextBasedOnMods();
     }
 
     // Update is called once per frame
@@ -35,50 +42,37 @@ public class HandActions : MonoBehaviour
         
     }
 
-    public void SetDefaultDeckState()
+    public void drawCard()
     {
-        // deckDefaultState = deck.CopyToNewObject();
+        // Draw a card from the deck
+        Card drawnCard = deck.drawCardFromDeck();
+
+        // Create a new instance of the card prefab and place it in the hand area
+        GameObject cardObject = Instantiate(cardPrefab, handArea);
+
+        // Assign the drawnCard scriptable object to the Card prefab object
+        CardPrefab cardScript = cardObject.GetComponent<CardPrefab>();
+        if (cardScript != null)
+        {
+            cardScript.Initialize(drawnCard, gameStateManager); // Assign the card
+        }
+
+        // Assign card data to the UI
+        cardObject.transform.Find("Card Name").GetComponent<TMP_Text>().text = drawnCard.cardName;
     }
 
-    public void DrawCard()
+    public void drawStartingHand()
     {
-        // Card drawnCard = deck.DrawCardFromDeck();
+        // Called here because of the timing of object creation
+        deck.resetToInitialState();
 
-        // GameObject cardObject = Instantiate(cardPrefab, handArea);
-
-        // // Assign the drawnCard scriptable object to the Card prefab object
-        // CardPrefab cardScript = cardObject.GetComponent<CardPrefab>();
-        // if (cardScript != null)
-        // {
-        //     cardScript.Initialize(drawnCard, gameManager); // Assign the card
-        // }
-
-        // // Assign card data to the UI
-        // cardObject.transform.Find("Card Name").GetComponent<TMP_Text>().text = drawnCard.cardName;
-    }
-
-    public void ResetDeck()
-    {
-        // deck = deckDefaultState.CopyToNewObject();
-        // deck.Randomize();
-
-        // foreach (Transform child in handArea)
-        // {
-        //     Destroy(child.gameObject);
-        // }
-
-        // DrawStartingHand();
-    }
-
-    public void DrawStartingHand()
-    {
         for (int i = 0; i < startingHandSize; i++)
         {
-            DrawCard();
+            drawCard();
         }
     }
 
-    public void UpdateCardTextBasedOnMods()
+    public void updateCardTextBasedOnMods()
     {
         // Get the current player type
         PLAYER_TYPE currentPlayerType = playerScript.currentPlayer.GetComponent<Player>().PlayerType;
@@ -106,5 +100,16 @@ public class HandActions : MonoBehaviour
 
             cardPrefab.transform.Find("Card Name").GetComponent<TextMeshProUGUI>().color = textColor;
         }
+    }
+
+    private void initializeScripts()
+    {
+        // PlayerInit.cs
+        playerScript = playersObject.GetComponent<PlayersInit>();
+    }
+
+    public DeckObj getDeck()
+    {
+        return deck;
     }
 }

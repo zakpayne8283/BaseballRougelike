@@ -496,51 +496,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &299842346
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 299842347}
-  - component: {fileID: 299842348}
-  m_Layer: 0
-  m_Name: Deck Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &299842347
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 299842346}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1801999536}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &299842348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 299842346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8adcd88d6200af4794241e703badee9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deck: {fileID: 11400000, guid: 7d67fa9ab03fe924383a08b6fb51e4d3, type: 2}
 --- !u!1 &312721991
 GameObject:
   m_ObjectHideFlags: 0
@@ -1287,6 +1242,100 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &623884135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 623884136}
+  - component: {fileID: 623884137}
+  m_Layer: 0
+  m_Name: Field of Play Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &623884136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623884135}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1801999536}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &623884137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623884135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f394e3067e69e4d86411892d73b845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fieldOfPlay: {fileID: 1982489222}
+--- !u!1 &685494775
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 685494776}
+  - component: {fileID: 685494777}
+  m_Layer: 0
+  m_Name: Cards Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &685494776
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685494775}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1801999536}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &685494777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685494775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc33c8af08b7f3e408a0f13af03ba046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handArea: {fileID: 1472558114}
+  cardPrefab: {fileID: 5350023980202335739, guid: ae19d8bd0fdd64949bb703ae21b08f68, type: 3}
+  gameStateManager: {fileID: 1189523383}
+  playersObject: {fileID: 2130136645}
+  deck: {fileID: 11400000, guid: 7d67fa9ab03fe924383a08b6fb51e4d3, type: 2}
 --- !u!1 &794743625
 GameObject:
   m_ObjectHideFlags: 0
@@ -1506,7 +1555,6 @@ GameObject:
   - component: {fileID: 1127696350}
   - component: {fileID: 1127696352}
   - component: {fileID: 1127696351}
-  - component: {fileID: 1127696353}
   m_Layer: 5
   m_Name: Score Bug
   m_TagString: Untagged
@@ -1575,19 +1623,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127696349}
   m_CullTransparentMesh: 1
---- !u!114 &1127696353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127696349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5591c26260836524badf7dd2e2d6cc46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreBug: {fileID: 1127696350}
 --- !u!1 &1189523383
 GameObject:
   m_ObjectHideFlags: 0
@@ -1665,10 +1700,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldOfPlay: {fileID: 1982489221}
-  scoreBug: {fileID: 1127696349}
+  scoreBug: {fileID: 2073967623}
   players: {fileID: 2130136645}
-  handObject: {fileID: 1472558113}
-  deckManager: {fileID: 299842346}
+  cardsManager: {fileID: 685494775}
 --- !u!1 &1472558113
 GameObject:
   m_ObjectHideFlags: 0
@@ -1748,8 +1782,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handArea: {fileID: 1472558114}
   cardPrefab: {fileID: 5350023980202335739, guid: ae19d8bd0fdd64949bb703ae21b08f68, type: 3}
-  gameManager: {fileID: 1189523383}
+  gameStateManager: {fileID: 0}
   playersObject: {fileID: 2130136645}
+  deck: {fileID: 0}
 --- !u!114 &1472558117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2089,8 +2124,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 685494776}
   - {fileID: 1189523384}
-  - {fileID: 299842347}
+  - {fileID: 2073967624}
+  - {fileID: 623884136}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1856091207
@@ -2179,7 +2216,6 @@ GameObject:
   - component: {fileID: 1982489222}
   - component: {fileID: 1982489224}
   - component: {fileID: 1982489223}
-  - component: {fileID: 1982489225}
   m_Layer: 5
   m_Name: Field Of Play
   m_TagString: Untagged
@@ -2248,19 +2284,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982489221}
   m_CullTransparentMesh: 1
---- !u!114 &1982489225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1982489221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18f394e3067e69e4d86411892d73b845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fieldOfPlay: {fileID: 1982489222}
 --- !u!1 &1989716489
 GameObject:
   m_ObjectHideFlags: 0
@@ -2340,6 +2363,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2073967623
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2073967624}
+  - component: {fileID: 2073967625}
+  m_Layer: 0
+  m_Name: Score Bug Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2073967624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073967623}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1801999536}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2073967625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073967623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5591c26260836524badf7dd2e2d6cc46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreBug: {fileID: 1127696350}
 --- !u!1 &2122574186
 GameObject:
   m_ObjectHideFlags: 0

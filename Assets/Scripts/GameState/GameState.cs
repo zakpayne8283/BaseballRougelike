@@ -9,12 +9,9 @@ public class GameState : MonoBehaviour
     [SerializeField] public GameObject scoreBug;
     [SerializeField] public GameObject players;
 
-    [SerializeField] public GameObject handObject;
-
-    [SerializeField] public GameObject deckManager;
-    private DeckManager deckManagerScript;
-
-    private HandActions handScript;
+    // Hand area object and script
+    [SerializeField] public GameObject cardsManager;
+    private CardsManager cardsManagerScript;
 
     private CustomLogger logger;
 
@@ -40,14 +37,15 @@ public class GameState : MonoBehaviour
         // Get all the scripts setup
         initializeScripts();
 
+        // Call
+        // cardsManagerScript.resetToInitialState();
+
         // Setup custom logger
         logger = new CustomLogger();
 
         currentGameState = new GameStateStruct(topInning, inning, awayScore, homeScore, outs, runnerOnFirst, runnerOnSecond, runnerOnThird, changeInning);
 
-        // Get the hand script on setup
-        handScript.SetDefaultDeckState();
-        handScript.DrawStartingHand();
+        cardsManagerScript.drawStartingHand();
     }
 
     // Update is called once per frame
@@ -92,7 +90,7 @@ public class GameState : MonoBehaviour
         }
 
         // Update the card texts for the next batter
-        handScript.UpdateCardTextBasedOnMods();
+        cardsManagerScript.updateCardTextBasedOnMods();
 
         // Change inning alwyas false after updating UI
         // UI should be updated with new inning already, so we want to default back to no change afterwards
@@ -127,12 +125,12 @@ public class GameState : MonoBehaviour
         logger.WriteLog($"{playersScript.getCurrentPlayerAsClass().PlayerType},{_effect.ToString()},{currentGameState.topInning}");
 
         // Handle the effect of the played card
-        HandleCardEffectLogic.Start(ref currentGameState, _effect, handScript);
+        HandleCardEffectLogic.Start(ref currentGameState, _effect, cardsManagerScript);
 
         // If we're changing innings, reset the deck
         if (currentGameState.changeInning)
         {
-            handScript.ResetDeck();
+            cardsManagerScript.getDeck().resetToInitialState();
         }
     }
 
@@ -166,9 +164,7 @@ public class GameState : MonoBehaviour
     /// </summary>
     private void initializeScripts()
     {
-        // DeckManager.cs
-        deckManagerScript = deckManager.GetComponent<DeckManager>();
-        handScript = handObject.GetComponent<HandActions>();
+        cardsManagerScript = cardsManager.GetComponent<CardsManager>();
     }
 }
 

@@ -9,7 +9,6 @@ public class DeckObj : ScriptableObject
 
     public DeckObj()
     {
-        cards = _cardsDefault;
     }
 
     /// <summary>
@@ -62,5 +61,17 @@ public class DeckObj : ScriptableObject
             cards[i] = cards[j];
             cards[j] = temp;
         }
+    }
+
+    /// <summary>
+    /// Resets to initial state of deck. Used when changing innings
+    /// </summary>
+    public void resetToInitialState()
+    {
+        // Reset the size
+        cards = new Card[_cardsDefault.Length];
+
+        // Copy
+        Array.Copy(_cardsDefault, cards, _cardsDefault.Length);
     }
 }
