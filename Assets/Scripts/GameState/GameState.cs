@@ -39,7 +39,7 @@ public class GameState : MonoBehaviour
         cardsManagerScript.drawStartingHand();
 
         // Update the card texts now because they will always be default otherwise
-        cardsManagerScript.updateCardTextBasedOnMods();
+        cardsManagerScript.updateCardUI(currentGameState.copyCurrentState());
     }
 
     // Update is called once per frame
@@ -72,7 +72,7 @@ public class GameState : MonoBehaviour
         playersManagerScript.setNextPlayer(currentGameState.changeInning);
         
         // Update the card texts for the next batter
-        cardsManagerScript.updateCardTextBasedOnMods();
+        cardsManagerScript.updateCardUI(currentGameState);
 
         // Change inning alwyas false after updating UI
         // UI should be updated with new inning already, so we want to default back to no change afterwards
@@ -108,7 +108,10 @@ public class GameState : MonoBehaviour
         // If we're changing innings, reset the deck
         if (currentGameState.changeInning)
         {
-            cardsManagerScript.getDeck().resetToInitialState();
+            // Empty the current hand
+            cardsManagerScript.clearHand();
+            // Draw a new hand
+            cardsManagerScript.drawStartingHand();
         }
     }
 

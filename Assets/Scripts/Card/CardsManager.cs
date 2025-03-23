@@ -31,9 +31,7 @@ public class CardsManager : MonoBehaviour
     void Start()
     {
         initializeScripts();
-
-        // Update all visual card texts as needed
-        // updateCardTextBasedOnMods();
+        deck.randomize();
     }
 
     // Update is called once per frame
@@ -66,13 +64,16 @@ public class CardsManager : MonoBehaviour
         // Called here because of the timing of object creation
         deck.resetToInitialState();
 
+        // Randomzie before drawing
+        deck.randomize();
+
         for (int i = 0; i < startingHandSize; i++)
         {
             drawCard();
         }
     }
 
-    public void updateCardTextBasedOnMods()
+    public void updateCardUI(GameStateStruct currentGameState)
     {
         // Get the current player type
         PLAYER_TYPE currentPlayerType = playersManagerScript.currentPlayerScript.PlayerType;
@@ -82,23 +83,34 @@ public class CardsManager : MonoBehaviour
 
         foreach (CardPrefab cardPrefab in cardPrefabs)
         {
+            // The previewed game state
+            GameStateStruct previewGameState = currentGameState.copyCurrentState();
+
+            // Save the card effect for preview generation
+            CARD_EFFECT cardEffect = cardPrefab.card.cardEffect;
+
+            // Find any modifications for this card/player_type
             Modification foundModification = cardPrefab.card.getCardModByPlayerType(currentPlayerType);
 
-            Color textColor = Color.black;
-
+            // If a mod is found, update the card's text to reflect mod
             if (foundModification.newEffect != CARD_EFFECT.DEFAULT_NO_EFFECT)
             {
-                if (foundModification.improvement)
-                {
-                    textColor = Color.green;
-                }
-                else
-                {
-                    textColor = Color.red;
-                }
+                cardPrefab.updateCardTextFromMod(foundModification);
+
+                // Save this because we use it during updating the preview
+                cardEffect = foundModification.newEffect;
             }
 
-            cardPrefab.transform.Find("Card Name").GetComponent<TextMeshProUGUI>().color = textColor;
+            // Update the visuals on the card to preview the next game state
+
+            // Copy the state
+            GameStateStruct initialState = previewGameState.copyCurrentState();
+
+            // Update the preview state
+            HandleCardEffectLogic.Start(ref previewGameState, cardEffect);
+
+            // Dispatch the updates
+            cardPrefab.updateCardPreview(initialState, previewGameState);
         }
     }
 
@@ -111,5 +123,13 @@ public class CardsManager : MonoBehaviour
     public DeckObj getDeck()
     {
         return deck;
+    }
+
+    public void clearHand()
+    {
+        foreach (SelfDestruct cardToDestroy in handArea.GetComponentsInChildren<SelfDestruct>().ToList())
+        {
+            cardToDestroy.DestroySelf();
+        }
     }
 }

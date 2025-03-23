@@ -10,7 +10,7 @@ public class HandleCardEffectLogic
     /// <param name="currentGameState">[Ref] Game state provided by GameState.cs</param>
     /// <param name="cardEffect">Listed card effect</param>
     /// <param name="cardsManager">Script that manages hand - used to draw a card</param>
-    public static void Start(ref GameStateStruct currentGameState, CARD_EFFECT cardEffect, CardsManager cardsManager)
+    public static void Start(ref GameStateStruct currentGameState, CARD_EFFECT cardEffect, CardsManager cardsManager=null)
     {
         // TODO: Reconsider handScript
 
@@ -22,19 +22,19 @@ public class HandleCardEffectLogic
         {
             case CARD_EFFECT.SINGLE:
                 HandleSingle();
-                cardsManager.drawCard();
+                cardsManager?.drawCard();
                 break;
             case CARD_EFFECT.DOUBLE:
                 HandleDouble();
-                cardsManager.drawCard();
+                cardsManager?.drawCard();
                 break;
             case CARD_EFFECT.TRIPLE:
                 HandleTriple();
-                cardsManager.drawCard();
+                cardsManager?.drawCard();
                 break;
             case CARD_EFFECT.HOME_RUN:
                 HandleHomeRun();
-                cardsManager.drawCard();
+                cardsManager?.drawCard();
                 break;
             case CARD_EFFECT.GROUNDOUT:
                 HandleGroundOut();
@@ -47,11 +47,11 @@ public class HandleCardEffectLogic
                 break;
             case CARD_EFFECT.STRIKEOUT_ON_BASE:
                 HandleStrikeOutOnBase();
-                cardsManager.drawCard();
+                cardsManager?.drawCard();
                 break;
             case CARD_EFFECT.WALK:
                 HandleWalk();
-                cardsManager.drawCard();
+                cardsManager?.drawCard();
                 break;
             case CARD_EFFECT.DEFAULT_NO_EFFECT:
                 break;
