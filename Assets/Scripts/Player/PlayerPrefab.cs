@@ -1,14 +1,15 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class PlayerPrefab : MonoBehaviour
 {
     [SerializeField]
     public string PlayerName;
     [SerializeField]
     public PLAYER_TYPE PlayerType;
-    [SerializeField]
-    public Image BackgroundImageRef;
+    
+    public Image backgroundImage;
 
     [SerializeField]
     public Color defaultColor;
@@ -20,10 +21,18 @@ public class Player : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Set the background image to the attached image component
+        backgroundImage = this.GetComponent<Image>();
+
+        // Force 0 transparency
         defaultColor.a = 1.0f;
 
-        // Only set to default color if the prefab is not the active player
-        if (BackgroundImageRef.color != activeColor)
+        // Set the background color based on if this player is active or not.
+        if (currentPlayer)
+        {
+            SetCurrent();
+        }
+        else
         {
             SetBackgroundToDefaultColor();
         }
@@ -38,7 +47,7 @@ public class Player : MonoBehaviour
     public void SetCurrent()
     {
         currentPlayer = true;
-        BackgroundImageRef.color = activeColor;
+        backgroundImage.color = activeColor;
     }
 
     public void UnsetCurrent()
@@ -49,7 +58,18 @@ public class Player : MonoBehaviour
 
     private void SetBackgroundToDefaultColor()
     {
-        BackgroundImageRef.color = defaultColor;
+        backgroundImage.color = defaultColor;
+    }
+
+    public void setPlayerNameText(string textToSetTo)
+    {
+        // Update ]the prefab text
+        this.transform.Find("Player Name").GetComponent<TMP_Text>().text = textToSetTo;
+    }
+
+    public void setPlayerType(PLAYER_TYPE typeToSetTo)
+    {
+        this.PlayerType = typeToSetTo;
     }
 }
 

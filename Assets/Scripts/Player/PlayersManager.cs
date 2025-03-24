@@ -28,7 +28,7 @@ public class PlayersManager : MonoBehaviour
     private List<GameObject> homePlayers = new List<GameObject>();
 
     public GameObject currentPlayer;
-    public Player currentPlayerScript;
+    public PlayerPrefab currentPlayerScript;
 
     private bool topInning = true;
 
@@ -54,7 +54,7 @@ public class PlayersManager : MonoBehaviour
             currentPlayer = awayPlayers.First();
 
             // Get the current player script and set it to active;
-            currentPlayerScript = currentPlayer.GetComponent<Player>();
+            currentPlayerScript = currentPlayer.GetComponent<PlayerPrefab>();
             
             // UI update to signify active
             currentPlayerScript.SetCurrent();
@@ -69,7 +69,7 @@ public class PlayersManager : MonoBehaviour
             currentPlayer = findNextActivePlayer();
 
             // Get the current player script and set it to active;
-            currentPlayerScript = currentPlayer.GetComponent<Player>();
+            currentPlayerScript = currentPlayer.GetComponent<PlayerPrefab>();
             currentPlayerScript.SetCurrent();
 
             // Change the top/bottom of the inning
@@ -80,7 +80,7 @@ public class PlayersManager : MonoBehaviour
                 // set currentPlayer value to the next player for the other team
                 if (topInning)
                 {
-                    currentPlayer = awayPlayers.Where(x => x.GetComponent<Player>().currentPlayer).FirstOrDefault();
+                    currentPlayer = awayPlayers.Where(x => x.GetComponent<PlayerPrefab>().currentPlayer).FirstOrDefault();
 
                     if (currentPlayer == null)
                     {
@@ -89,7 +89,7 @@ public class PlayersManager : MonoBehaviour
                 }
                 else
                 {
-                    currentPlayer = homePlayers.Where(x => x.GetComponent<Player>().currentPlayer).FirstOrDefault();
+                    currentPlayer = homePlayers.Where(x => x.GetComponent<PlayerPrefab>().currentPlayer).FirstOrDefault();
 
                     if (currentPlayer == null)
                     {
@@ -98,7 +98,7 @@ public class PlayersManager : MonoBehaviour
                 }
 
                 // Set the script up
-                currentPlayerScript = currentPlayer.GetComponent<Player>();
+                currentPlayerScript = currentPlayer.GetComponent<PlayerPrefab>();
                 currentPlayerScript.SetCurrent();
 
                 // Hide all elements of current team and unhide other team
@@ -171,7 +171,7 @@ public class PlayersManager : MonoBehaviour
         return nextPlayer;
     }
 
-    public Player getCurrentPlayerAsClass()
+    public PlayerPrefab getCurrentPlayerAsClass()
     {
         return currentPlayerScript;
     }
@@ -185,12 +185,13 @@ public class PlayersManager : MonoBehaviour
         {
             // Create a new player prefab for that lineup spot
             GameObject playerObject = Instantiate(playerPrefab, playerArea);
+            PlayerPrefab playerObjectScript = playerObject.GetComponent<PlayerPrefab>();
 
-            // Update the prefab text
-            playerObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = $"Player #{i + 1}{playerTypeInName(defaultLineup[i])}";
-
+            // Setup the players names
+            playerObjectScript.setPlayerNameText($"Player #{i + 1}");
+            
             // Set the player type from the default values
-            playerObject.GetComponent<Player>().PlayerType = defaultLineup[i]; 
+            playerObjectScript.setPlayerType(defaultLineup[i]);
 
             // Add player to list of players
             awayPlayers.Add(playerObject);
@@ -205,13 +206,15 @@ public class PlayersManager : MonoBehaviour
         {
             // Create a new player prefab for that lineup spot
             GameObject playerObject = Instantiate(playerPrefab, playerArea);
+            PlayerPrefab playerObjectScript = playerObject.GetComponent<PlayerPrefab>();
 
-            // Update ]the prefab text
-            playerObject.transform.Find("Player Name").GetComponent<TMP_Text>().text = $"Player #{i + 10}{playerTypeInName(defaultLineup[i])}"; // +10 -> +1 for display, +9 because second lineup
-
+            // Setup the players names
+            playerObjectScript.setPlayerNameText($"Player #{i + 10}");
+            
             // Set the player type from the default values
-            playerObject.GetComponent<Player>().PlayerType = defaultLineup[i];
+            playerObjectScript.setPlayerType(defaultLineup[i]);
 
+            // Hide the game element since home is not batting initially
             playerObject.SetActive(false);
 
             // Add player to list of players
