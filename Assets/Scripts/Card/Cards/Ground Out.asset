@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Ground Out
   cardEffect: 5
+  cardRarity: 0
   cardMods: []
+  cardUpgradesTo:
+  - {fileID: 11400000, guid: 37087e20773bf0349a227cdd700ebf36, type: 2}

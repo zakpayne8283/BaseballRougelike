@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Dribbler
   cardEffect: 5
+  cardRarity: 1
   cardMods:
   - playerType: 3
     newEffect: 1
     improvement: 1
+  cardUpgradesTo: []

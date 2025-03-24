@@ -14,4 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Base Hit
   cardEffect: 1
+  cardRarity: 0
   cardMods: []
+  cardUpgradesTo:
+  - {fileID: 11400000, guid: 38d321ce9185e7d4da8c6f8136bd250e, type: 2}
+  - {fileID: 11400000, guid: 03bf7853254142e41a2348939b082b73, type: 2}
+  - {fileID: 11400000, guid: 85770f3d13a5a61408c59efe96f5a0b2, type: 2}

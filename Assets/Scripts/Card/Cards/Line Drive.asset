@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Line Drive
   cardEffect: 1
-  cardMods:
-  - playerType: 2
-    newEffect: 2
-    improvement: 1
+  cardRarity: 0
+  cardMods: []
+  cardUpgradesTo:
+  - {fileID: 0}

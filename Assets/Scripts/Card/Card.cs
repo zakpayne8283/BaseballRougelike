@@ -7,7 +7,9 @@ public class Card : ScriptableObject
 {
     [SerializeField] public string cardName;
     [SerializeField] public CARD_EFFECT cardEffect;
+    [SerializeField] public CARD_RARITY cardRarity;
     [SerializeField] public List<Modification> cardMods = new List<Modification>();
+    [SerializeField] public List<Card> cardUpgradesTo = new List<Card>();
 
     public Modification getCardModByPlayerType(PLAYER_TYPE currentPlayerType)
     {
@@ -28,7 +30,13 @@ public enum CARD_EFFECT
     STRIKEOUT_ON_BASE,
     WALK,
     LINEOUT
+}
 
+public enum CARD_RARITY
+{
+    COMMON,
+    UNCOMMON,
+    RARE
 }
 
 [System.Serializable]

@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Home Run
   cardEffect: 4
+  cardRarity: 2
   cardMods: []
+  cardUpgradesTo: []

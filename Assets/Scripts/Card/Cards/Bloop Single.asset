@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Bloop Single
   cardEffect: 1
+  cardRarity: 1
   cardMods:
   - playerType: 2
     newEffect: 6
     improvement: 0
+  cardUpgradesTo: []

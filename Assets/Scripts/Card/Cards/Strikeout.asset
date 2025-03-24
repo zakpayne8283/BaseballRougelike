@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Strikeout
   cardEffect: 7
+  cardRarity: 0
   cardMods: []
+  cardUpgradesTo:
+  - {fileID: 11400000, guid: dc5b4c91637df7d43b5779d16c58b4c1, type: 2}

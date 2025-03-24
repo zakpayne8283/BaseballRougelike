@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Lineout
   cardEffect: 10
+  cardRarity: 0
   cardMods:
   - playerType: 1
     newEffect: 2
     improvement: 1
+  cardUpgradesTo:
+  - {fileID: 11400000, guid: bb30122b1f5342d429be33cc04fe213c, type: 2}

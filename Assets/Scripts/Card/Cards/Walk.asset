@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Walk
   cardEffect: 9
+  cardRarity: 0
   cardMods: []
+  cardUpgradesTo:
+  - {fileID: 11400000, guid: 93f00a44a5e8f3c4ba7c1a6733deb94e, type: 2}

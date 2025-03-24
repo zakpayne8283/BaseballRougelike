@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Deep Flyout
   cardEffect: 6
+  cardRarity: 1
   cardMods:
   - playerType: 2
     newEffect: 4
     improvement: 1
+  cardUpgradesTo: []

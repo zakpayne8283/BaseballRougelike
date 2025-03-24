@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Flyout
   cardEffect: 6
+  cardRarity: 0
   cardMods: []
+  cardUpgradesTo:
+  - {fileID: 11400000, guid: 722043a823965a442a576ff6db9217e9, type: 2}
+  - {fileID: 11400000, guid: ee2d6ebd65b9a0b42bf14ae1cb338c5a, type: 2}

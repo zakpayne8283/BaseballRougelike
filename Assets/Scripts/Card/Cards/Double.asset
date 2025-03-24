@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Double
   cardEffect: 2
+  cardRarity: 1
   cardMods:
   - playerType: 3
     newEffect: 3
     improvement: 1
-  - playerType: 2
-    newEffect: 4
-    improvement: 1
+  cardUpgradesTo:
+  - {fileID: 11400000, guid: af7fe4d9400923d49b1a2f5a902e42c3, type: 2}
