@@ -13,15 +13,15 @@ public class PlayersManager : MonoBehaviour
     // Default player types in lineup
     private readonly PLAYER_TYPE[] defaultLineup =
     {
-        PLAYER_TYPE.SPEED,
-        PLAYER_TYPE.NONE,
-        PLAYER_TYPE.CONTACT,
-        PLAYER_TYPE.POWER,
-        PLAYER_TYPE.POWER,
         PLAYER_TYPE.NONE,
         PLAYER_TYPE.NONE,
         PLAYER_TYPE.NONE,
-        PLAYER_TYPE.SPEED
+        PLAYER_TYPE.NONE,
+        PLAYER_TYPE.NONE,
+        PLAYER_TYPE.NONE,
+        PLAYER_TYPE.NONE,
+        PLAYER_TYPE.NONE,
+        PLAYER_TYPE.NONE
     };
 
     private List<GameObject> awayPlayers = new List<GameObject>();

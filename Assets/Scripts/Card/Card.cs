@@ -26,7 +26,8 @@ public enum CARD_EFFECT
     FLYOUT,
     STRIKEOUT,
     STRIKEOUT_ON_BASE,
-    WALK
+    WALK,
+    LINEOUT
 
 }
 

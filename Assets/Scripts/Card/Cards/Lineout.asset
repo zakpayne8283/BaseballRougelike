@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Lineout
   m_EditorClassIdentifier: 
   cardName: Lineout
-  cardEffect: 6
+  cardEffect: 10
   cardMods:
   - playerType: 1
     newEffect: 2

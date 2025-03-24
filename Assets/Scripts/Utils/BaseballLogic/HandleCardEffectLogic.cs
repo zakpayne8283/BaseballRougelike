@@ -42,6 +42,9 @@ public class HandleCardEffectLogic
             case CARD_EFFECT.FLYOUT:
                 HandleFlyOut();
                 break;
+            case CARD_EFFECT.LINEOUT:
+                HandleLineOut();
+                break;
             case CARD_EFFECT.STRIKEOUT:
                 HandleStrikeOut();
                 break;
@@ -284,6 +287,18 @@ public class HandleCardEffectLogic
                 AdvanceRunner(3, 1);
             }
 
+            _gameState.outs++;
+        }
+    }
+
+    public static void HandleLineOut()
+    {
+        if (_gameState.outs >= 2)
+        {
+            TurnOverInning();
+        }
+        else
+        {
             _gameState.outs++;
         }
     }

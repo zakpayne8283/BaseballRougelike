@@ -341,7 +341,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12.9
+  m_fontSize: 13.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1335,7 +1335,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 5350023980202335739, guid: ae19d8bd0fdd64949bb703ae21b08f68, type: 3}
   gameStateManager: {fileID: 1189523383}
   playersManager: {fileID: 816571897}
-  deck: {fileID: 11400000, guid: 951e69d44a35c0d4abd94bdd857dac50, type: 2}
+  deck: {fileID: 11400000, guid: 97dd7db8723570341bebebdffa8da30d, type: 2}
 --- !u!1 &794743625
 GameObject:
   m_ObjectHideFlags: 0
@@ -1786,7 +1786,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.16175483, y: 0.049501423}
   m_AnchorMax: {x: 0.84871936, y: 0.3583286}
-  m_AnchoredPosition: {x: -2.670227, y: 1.2285156}
+  m_AnchoredPosition: {x: -2.670227, y: 1.2285309}
   m_SizeDelta: {x: 0.22610474, y: -0.77389526}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1472558115
@@ -2274,7 +2274,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.213155, y: 0.39334366}
   m_AnchorMax: {x: 0.6777585, y: 0.9404987}
-  m_AnchoredPosition: {x: -1.7784576, y: 0.9710007}
+  m_AnchoredPosition: {x: -1.7784424, y: 0.9710007}
   m_SizeDelta: {x: 0.4151001, y: -2.5099945}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1982489223
