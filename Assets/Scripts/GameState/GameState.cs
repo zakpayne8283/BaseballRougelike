@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameState : MonoBehaviour
 {
@@ -136,8 +137,8 @@ public class GameState : MonoBehaviour
 
     private void EndGame()
     {
-        //
-        Application.Quit();
+        CampaignManager.Instance.gameEnded = true;
+        SceneManager.LoadScene("CampaignScene");
     }
 
     /// <summary>

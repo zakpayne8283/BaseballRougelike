@@ -4,8 +4,12 @@ public class CampaignManager : MonoBehaviour
 {
     public static CampaignManager Instance;
 
+    // The deck currently being used by this campaign
     [SerializeField] private DeckObj deckDefault;
     private DeckObj deck;
+
+    // Flag to tell if we're just leaving a game, to act on post game actions.
+    public bool gameEnded = false;
 
     private void Awake()
     {
@@ -27,7 +31,11 @@ public class CampaignManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        // If exiting a game, do this
+        if (gameEnded)
+        {
+            // TODO
+        }
     }
 
     // Update is called once per frame
