@@ -4,6 +4,8 @@ public class HandleCardEffectLogic
 {
     private static GameStateStruct _gameState;
 
+    private static bool isProductiveAB = false;
+
     /// <summary>
     /// Begin handling the card effect
     /// </summary>
@@ -22,19 +24,15 @@ public class HandleCardEffectLogic
         {
             case CARD_EFFECT.SINGLE:
                 HandleSingle();
-                cardsManager?.drawCard();
                 break;
             case CARD_EFFECT.DOUBLE:
                 HandleDouble();
-                cardsManager?.drawCard();
                 break;
             case CARD_EFFECT.TRIPLE:
                 HandleTriple();
-                cardsManager?.drawCard();
                 break;
             case CARD_EFFECT.HOME_RUN:
                 HandleHomeRun();
-                cardsManager?.drawCard();
                 break;
             case CARD_EFFECT.GROUNDOUT:
                 HandleGroundOut();
@@ -50,18 +48,24 @@ public class HandleCardEffectLogic
                 break;
             case CARD_EFFECT.STRIKEOUT_ON_BASE:
                 HandleStrikeOutOnBase();
-                cardsManager?.drawCard();
                 break;
             case CARD_EFFECT.WALK:
                 HandleWalk();
-                cardsManager?.drawCard();
                 break;
             case CARD_EFFECT.DEFAULT_NO_EFFECT:
                 break;
         }
 
+        if (isProductiveAB)
+        {
+            cardsManager?.drawCard();
+        }
+
         // Edit the main game state (used in GameState.cs)
         currentGameState = _gameState;
+
+        // RESET THE isProductiveAB VARIABLE HERE
+        isProductiveAB = false;
     }
 
     /// <summary>
@@ -85,6 +89,7 @@ public class HandleCardEffectLogic
         }
 
         _gameState.runnerOnFirst = true;
+        isProductiveAB = true;
     }
 
     /// <summary>
@@ -108,6 +113,7 @@ public class HandleCardEffectLogic
         }
 
         _gameState.runnerOnSecond = true;
+        isProductiveAB = true;
     }
 
     public static void HandleTriple()
@@ -128,6 +134,7 @@ public class HandleCardEffectLogic
         }
 
         _gameState.runnerOnThird = true;
+        isProductiveAB = true;
     }
 
     public static void HandleHomeRun()
@@ -148,6 +155,7 @@ public class HandleCardEffectLogic
         }
 
         ScoreRun();
+        isProductiveAB = true;
     }
 
     /// <summary>
@@ -196,6 +204,9 @@ public class HandleCardEffectLogic
 
                 // force out
                 _gameState.outs++;
+
+                // Runner scored and only 1 added out:
+                isProductiveAB = true;
             }
             // 1st and 3rd
             else if (
@@ -215,6 +226,9 @@ public class HandleCardEffectLogic
 
                     // Two force outs
                     _gameState.outs = 2;
+
+                    // RISP scored:
+                    isProductiveAB = true;
                 }
             }
             // 3rd only
@@ -225,6 +239,9 @@ public class HandleCardEffectLogic
 
                 // force out at 1b
                 _gameState.outs++;
+
+                // RISP Score:
+                isProductiveAB = true;
             }
             // 2nd and 1st
             else if (
@@ -257,6 +274,12 @@ public class HandleCardEffectLogic
 
                 // force out at 1b
                 _gameState.outs++;
+
+                // If there's no outs, it's a positive AB:
+                if (_gameState.outs != 2)
+                {
+                    isProductiveAB = true;
+                }
             }
             // 1st only
             else if (_gameState.runnerOnFirst)
@@ -285,6 +308,7 @@ public class HandleCardEffectLogic
             if (_gameState.runnerOnThird)
             {
                 AdvanceRunner(3, 1);
+                isProductiveAB = true;
             }
 
             _gameState.outs++;
@@ -348,6 +372,7 @@ public class HandleCardEffectLogic
             }
 
             _gameState.runnerOnFirst = true;
+            isProductiveAB = true;
         }
     }
 
@@ -375,6 +400,7 @@ public class HandleCardEffectLogic
         }
 
         _gameState.runnerOnFirst = true;
+        isProductiveAB = true;
     }
 
     /// <summary>
