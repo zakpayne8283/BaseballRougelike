@@ -1350,6 +1350,7 @@ MonoBehaviour:
   gameStateManager: {fileID: 1189523383}
   playersManager: {fileID: 816571897}
   deck: {fileID: 11400000, guid: 97dd7db8723570341bebebdffa8da30d, type: 2}
+  startingHandSize: 3
 --- !u!1 &794743625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2087,7 +2088,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 13.6
+  m_fontSize: 12.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2647,7 +2648,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_Spacing: 2
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0

@@ -47,7 +47,9 @@ public class PlayerPrefab : MonoBehaviour
     public void SetCurrent()
     {
         currentPlayer = true;
-        backgroundImage.color = activeColor;
+
+        if (backgroundImage != null)
+            backgroundImage.color = activeColor;
     }
 
     public void UnsetCurrent()
@@ -58,7 +60,8 @@ public class PlayerPrefab : MonoBehaviour
 
     private void SetBackgroundToDefaultColor()
     {
-        backgroundImage.color = defaultColor;
+        if (backgroundImage != null)
+            backgroundImage.color = defaultColor;
     }
 
     public void setPlayerNameText(string textToSetTo)

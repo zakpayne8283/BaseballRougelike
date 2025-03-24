@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31fef23c1c8a40e45a426d762d7f192c, type: 3}
   m_Name: Base Hit
   m_EditorClassIdentifier: 
-  cardName: 
-  cardEffect: 0
+  cardName: Base Hit
+  cardEffect: 1
   cardMods: []

@@ -25,7 +25,7 @@ public class CardsManager : MonoBehaviour
     [SerializeField] private DeckObj deck;
 
     // Cards in starting hand
-    private int startingHandSize = 5;
+    [SerializeField] private int startingHandSize;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
