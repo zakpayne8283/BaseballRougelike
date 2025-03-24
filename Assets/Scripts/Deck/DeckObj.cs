@@ -37,8 +37,12 @@ public class DeckObj : ScriptableObject
     /// <returns></returns>
     public DeckObj copyObject()
     {
+        if (cards.Length == 0)
+            resetToInitialState();
+
         DeckObj copiedDeck = new DeckObj();
         copiedDeck.cards = cards;
+        copiedDeck._cardsDefault = _cardsDefault;
 
         return copiedDeck;
     }

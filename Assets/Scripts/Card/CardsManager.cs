@@ -22,10 +22,15 @@ public class CardsManager : MonoBehaviour
     [SerializeField] private GameObject playersManager;
     private PlayersManager playersManagerScript;
 
-    [SerializeField] private DeckObj deck;
+    private DeckObj deck;
 
     // Cards in starting hand
     [SerializeField] private int startingHandSize;
+
+    void Awake()
+    {
+        loadDataFromCampaignManager();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -131,5 +136,11 @@ public class CardsManager : MonoBehaviour
         {
             cardToDestroy.DestroySelf();
         }
+    }
+
+    private void loadDataFromCampaignManager()
+    {
+        // Copy the deck instead, since it can't be changed outside of campaign scene
+        deck = CampaignManager.Instance.copyDeck();
     }
 }
