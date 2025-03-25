@@ -4,11 +4,33 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DeckObj", menuName = "Scriptable Objects/DeckObj")]
 public class DeckObj : ScriptableObject
 {
-    [SerializeField] private Card[] _cardsDefault;
+    [SerializeField] public Card[] _cardsDefault;
     private Card[] cards;
 
-    public DeckObj()
+    /// <summary>
+    /// Used for copying to a new Deck Object
+    /// </summary>
+    public DeckObj(DeckObj _deck)
     {
+        _cardsDefault = _deck._cardsDefault;
+        cards = _deck.cards;
+    }
+
+    /// <summary>
+    /// Used when loading a deck from a save
+    /// </summary>
+    /// <param name="deckSave"></param>
+    public DeckObj(DeckSaveState deckSave)
+    {
+        // Load each card first
+        _cardsDefault = new Card[deckSave._cardsDefault.Length];
+        for (int i = 0; i < deckSave._cardsDefault.Length; i++)
+        {
+            _cardsDefault[i] = new Card(deckSave._cardsDefault[i]);
+        }
+
+        // Set the loaded cards
+        cards = _cardsDefault;
     }
 
     /// <summary>
@@ -40,9 +62,7 @@ public class DeckObj : ScriptableObject
         if (cards.Length == 0)
             resetToInitialState();
 
-        DeckObj copiedDeck = new DeckObj();
-        copiedDeck.cards = cards;
-        copiedDeck._cardsDefault = _cardsDefault;
+        DeckObj copiedDeck = new DeckObj(this);
 
         return copiedDeck;
     }
@@ -77,5 +97,48 @@ public class DeckObj : ScriptableObject
 
         // Copy
         Array.Copy(_cardsDefault, cards, _cardsDefault.Length);
+    }
+
+    /// <summary>
+    /// Gets a DeckSaveState based on the current deck. Used for saving to JSON
+    /// </summary>
+    /// <returns></returns>
+    public DeckSaveState getDeckSaveState()
+    {
+        return new DeckSaveState(this);
+    }
+}
+
+/// <summary>
+/// Class used for saving the campaign's deck to JSON
+/// </summary>
+[System.Serializable]
+public class DeckSaveState
+{
+    // CardSaveState so it also easily serializes
+    public CardSaveState[] _cardsDefault;
+
+    /// <summary>
+    /// Create a new save state based on provided deck
+    /// </summary>
+    /// <param name="deck"></param>
+    public DeckSaveState(DeckObj deck)
+    {
+        _cardsDefault = new CardSaveState[deck._cardsDefault.Length];
+
+        // Save all the cards too
+        for (int i = 0; i < deck._cardsDefault.Length; i++)
+        {
+            _cardsDefault[i] = new CardSaveState(deck._cardsDefault[i]);
+        }
+    }
+
+    /// <summary>
+    /// Copy the DeckSaveState to a usable DeckObj
+    /// </summary>
+    /// <returns></returns>
+    public DeckObj copyToDeck()
+    {
+        return new DeckObj(this);
     }
 }

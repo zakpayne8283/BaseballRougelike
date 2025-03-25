@@ -57,4 +57,14 @@ public class CampaignManager : MonoBehaviour
     {
         return deck.copyObject();
     }
+
+    /// <summary>
+    /// Called when loading save game data
+    /// </summary>
+    public void loadDeck(DeckSaveState _deck)
+    {
+        // Copy the data from DeckSaveState into the campaign deck
+        deckDefault = _deck.copyToDeck();
+        deck = _deck.copyToDeck();
+    }
 }
