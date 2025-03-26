@@ -21,6 +21,15 @@ public class CardPrefab : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Initialize with only card data. Used in upgrade store
+    /// </summary>
+    /// <param name="cardObj"></param>
+    public void Initialize(Card cardObj)
+    {
+        card = cardObj;
+    }
+
     public void Initialize(Card cardObj, GameObject gameManagerObj)
     {
         card = cardObj;

@@ -43,6 +43,40 @@ public class Card : ScriptableObject
     {
         return cardMods.Where(x => x.playerType == currentPlayerType).FirstOrDefault();
     }
+
+    /// <summary>
+    /// Finds a random upgrade for the card. Used in upgrade store
+    /// </summary>
+    /// <returns></returns>
+    public Card getRandomNextUpgrade()
+    {
+        // If only 1 upgrade - return it.
+        if (cardUpgradesTo.Count() == 1)
+        {
+            return cardUpgradesTo.First();
+        }
+        else
+        {
+            // Otherwise find a random one
+            System.Random random = new System.Random();
+            int j = random.Next(cardUpgradesTo.Count());
+            return cardUpgradesTo[j];
+        }
+    }
+
+    /// <summary>
+    /// Check if a card has any upgrades
+    /// </summary>
+    /// <returns></returns>
+    public bool hasUpgrades()
+    {
+        if (cardUpgradesTo.Count == 0)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }
 
 public enum CARD_EFFECT

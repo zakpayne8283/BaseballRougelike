@@ -98,7 +98,7 @@ public class CardsManager : MonoBehaviour
             Modification foundModification = cardPrefab.card.getCardModByPlayerType(currentPlayerType);
 
             // If a mod is found, update the card's text to reflect mod
-            if (foundModification.newEffect != CARD_EFFECT.DEFAULT_NO_EFFECT)
+            if (foundModification != null && foundModification.newEffect != CARD_EFFECT.DEFAULT_NO_EFFECT)
             {
                 cardPrefab.updateCardTextFromMod(foundModification);
 

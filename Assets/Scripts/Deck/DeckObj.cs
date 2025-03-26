@@ -107,6 +107,15 @@ public class DeckObj : ScriptableObject
     {
         return new DeckSaveState(this);
     }
+
+    /// <summary>
+    /// Returns all cards in deck
+    /// </summary>
+    /// <returns></returns>
+    public Card[] getCards()
+    {
+        return cards;
+    }
 }
 
 /// <summary>

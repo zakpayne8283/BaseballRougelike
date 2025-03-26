@@ -59,6 +59,15 @@ public class CampaignManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the current deck
+    /// </summary>
+    /// <returns></returns>
+    public DeckObj getDeck()
+    {
+        return deck;
+    }
+
+    /// <summary>
     /// Called when loading save game data
     /// </summary>
     public void loadDeck(DeckSaveState _deck)
