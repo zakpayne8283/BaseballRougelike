@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SeriesObj", menuName = "Scriptable Objects/SeriesObj")]
 public class SeriesObj : ScriptableObject
 {
-    [SerializeField] public SeriesLevel seriesLevel;    // Also used for determining difficulty
+    [SerializeField] public SERIES_LEVEL seriesLevel;    // Also used for determining difficulty
 
     public int totalGamesInSeries;
     public int currentGameInSeries;
@@ -36,7 +36,7 @@ public class SeriesObj : ScriptableObject
     }
 }
 
-public enum SeriesLevel
+public enum SERIES_LEVEL
 {
     WILD_CARD_SERIES,
     DIVISIONAL_SERIES,
@@ -50,7 +50,7 @@ public enum SeriesLevel
 [System.Serializable]
 public class SeriesSaveState
 {
-    public SeriesLevel seriesLevel;    // Also used for determining difficulty
+    public SERIES_LEVEL seriesLevel;    // Also used for determining difficulty
 
     public int totalGamesInSeries;
     public int currentGameInSeries;

@@ -8,6 +8,8 @@ public class CampaignManager : MonoBehaviour
     [SerializeField] private DeckObj deckDefault;
     private DeckObj deck;
 
+    // Where the campaign starts
+    [SerializeField] public SeriesObj startingSeries;
     // All of the series played on the current campaign
     private SeriesObj[] series;
 
@@ -29,6 +31,15 @@ public class CampaignManager : MonoBehaviour
 
         // Copy the default deck to prevent a scriptable object from being overwritten
         deck = deckDefault.copyObject();
+
+        // If there are currently no series, initialize
+        // - should not be called when loading data, which should populate
+        //   all previous series also  
+        if (series == null || series.Length == 0)
+        {
+            series = new SeriesObj[1];
+            series[0] = startingSeries;
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -94,6 +105,15 @@ public class CampaignManager : MonoBehaviour
         }
 
         return output;
+    }
+
+    /// <summary>
+    /// Returns the current campaign's series
+    /// </summary>
+    /// <returns></returns>
+    public SeriesObj[] getSeries()
+    {
+        return series;
     }
 
     /// <summary>

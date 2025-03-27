@@ -15,5 +15,5 @@ MonoBehaviour:
   seriesLevel: 0
   totalGamesInSeries: 3
   currentGameInSeries: 1
-  opponentName: 
+  opponentName: Default Opponent
   playerIsHomeTeamInSeries: 0
