@@ -8,6 +8,9 @@ public class CampaignManager : MonoBehaviour
     [SerializeField] private DeckObj deckDefault;
     private DeckObj deck;
 
+    // All of the series played on the current campaign
+    private SeriesObj[] series;
+
     // Flag to tell if we're just leaving a game, to act on post game actions.
     public bool gameEnded = false;
 
@@ -75,5 +78,51 @@ public class CampaignManager : MonoBehaviour
         // Copy the data from DeckSaveState into the campaign deck
         deckDefault = _deck.copyToDeck();
         deck = _deck.copyToDeck();
+    }
+
+    /// <summary>
+    /// Copies ALL series to a new array
+    /// </summary>
+    /// <returns></returns>
+    public SeriesObj[] copySeries()
+    {
+        SeriesObj[] output = new SeriesObj[series.Length];
+
+        for (int i = 0; i < series.Length; i++)
+        {
+            output[i] = series[i];
+        }
+
+        return output;
+    }
+
+    /// <summary>
+    /// Copy the current series to a save state format
+    /// </summary>
+    /// <returns></returns>
+    public SeriesSaveState[] copySeriesSaveState()
+    {
+        SeriesSaveState[] output = new SeriesSaveState[series.Length];
+
+        for (int i = 0; i < series.Length; i++)
+        {
+            output[i] = new SeriesSaveState(series[i]);
+        }
+
+        return output;
+    }
+
+    /// <summary>
+    /// Load the series data from the save file
+    /// </summary>
+    /// <param name="_series"></param>
+    public void loadSeriesData(SeriesSaveState[] _series)
+    {
+        series = new SeriesObj[_series.Length];
+
+        for (int i = 0; i < _series.Length; i++)
+        {
+            series[i] = _series[i].copyToSeries();
+        }
     }
 }

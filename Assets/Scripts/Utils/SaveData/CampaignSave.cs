@@ -6,6 +6,7 @@ using UnityEngine;
 public class CampaignSaveData
 {
     public DeckSaveState deckSave;         // a DeckObj serialized as a string
+    public SeriesSaveState[] seriesSaves;
 }
 
 public class CampaignSave : MonoBehaviour
@@ -45,7 +46,8 @@ public class CampaignSave : MonoBehaviour
         // Get the save state setup
         CampaignSaveData saveData = new CampaignSaveData
         {
-            deckSave = CampaignManager.Instance.copyDeck().getDeckSaveState()
+            deckSave = CampaignManager.Instance.copyDeck().getDeckSaveState(),
+            seriesSaves = CampaignManager.Instance.copySeriesSaveState()
         };
 
         // Serialize to JSON
@@ -70,6 +72,9 @@ public class CampaignSave : MonoBehaviour
 
             // Deserialize the deck into the game state
             CampaignManager.Instance.loadDeck(data.deckSave);
+
+            // Deserialize the list of series played into the game stae
+            CampaignManager.Instance.loadSeriesData(data.seriesSaves);
         }
         else
         {
