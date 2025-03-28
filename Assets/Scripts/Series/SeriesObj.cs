@@ -12,6 +12,8 @@ public class SeriesObj : ScriptableObject
 
     public bool playerIsHomeTeamInSeries;
 
+    [HideInInspector] public SeriesGame[] seriesGames;
+
     public SeriesObj(SeriesObj copyFrom)
     {
         seriesLevel = copyFrom.seriesLevel;
@@ -19,6 +21,7 @@ public class SeriesObj : ScriptableObject
         currentGameInSeries = copyFrom.currentGameInSeries;
         opponentName = copyFrom.opponentName;
         playerIsHomeTeamInSeries = copyFrom.playerIsHomeTeamInSeries;
+        seriesGames = copyFrom.seriesGames;
     }
 
     public SeriesObj(SeriesSaveState saveState)
@@ -28,6 +31,7 @@ public class SeriesObj : ScriptableObject
         currentGameInSeries = saveState.currentGameInSeries;
         opponentName = saveState.opponentName;
         playerIsHomeTeamInSeries = saveState.playerIsHomeTeamInSeries;
+        seriesGames = saveState.seriesGames;
     }
 
     public SeriesObj copySeries()
@@ -58,6 +62,8 @@ public class SeriesSaveState
     public string opponentName;
 
     public bool playerIsHomeTeamInSeries;
+    
+    public SeriesGame[] seriesGames;
 
     /// <summary>
     /// Copy a SeriesObj to a save state
@@ -70,6 +76,7 @@ public class SeriesSaveState
         currentGameInSeries = fromSeries.currentGameInSeries;
         opponentName = fromSeries.opponentName;
         playerIsHomeTeamInSeries = fromSeries.playerIsHomeTeamInSeries;
+        seriesGames = fromSeries.seriesGames;
     }
 
     public SeriesObj copyToSeries()
