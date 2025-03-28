@@ -8,8 +8,17 @@ public class UpgradeStore : MonoBehaviour
     // Prefab to use for upgrades
     [SerializeField] public GameObject upgradePrefab;
 
+    // Prefab to use for cards
+    [SerializeField] public GameObject cardPrefab;
+
     // Transform of where the upgrades go
     [SerializeField] public Transform upgradeArea;
+
+    // What the "view deck" button shows
+    private Transform deckViewPanel;
+
+    // What the "upgrade store" button shows
+    private Transform availableUpgradesPanel;
 
     // Max number of upgrades allowed in the store at one time
     private int maxNumberUpgrades = 2;
@@ -17,7 +26,11 @@ public class UpgradeStore : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        // Get the deck view transform
+        deckViewPanel = gameObject.transform.Find("Deck View Panel");
+
+        // Get the available upgrades view transform
+        availableUpgradesPanel = gameObject.transform.Find("Available Upgrades");
     }
 
     /// <summary>
@@ -152,5 +165,49 @@ public class UpgradeStore : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void showDeckPanel()
+    {
+        // Disable the "Available Upgrades" panel
+        availableUpgradesPanel.gameObject.SetActive(false);
+
+        // Enabled the "Deck View" panel
+        deckViewPanel.gameObject.SetActive(true);
+
+        // Populate the panel
+        populateDeckViewArea();
+
+    }
+
+    public void hideDeckPanel()
+    {
+        // Disable the "Deck View" panel
+        deckViewPanel.gameObject.SetActive(false);
+
+        tearDownDeckViewArea();
+
+        // Enable the "Available Upgrades" panel
+        availableUpgradesPanel.gameObject.SetActive(true);
+    }
+
+    private void populateDeckViewArea()
+    {
+        DeckObj deck = CampaignManager.Instance.copyDeck();
+        Card[] cards = deck.getCards();
+
+        for (int i = 0; i < cards.Length; i++)
+        {
+            GameObject createdCard = Instantiate(cardPrefab, deckViewPanel);
+            CardPrefab createdCardScript = createdCard.GetComponent<CardPrefab>();
+
+            createdCardScript.Initialize(cards[i]);
+            createdCardScript.initializeUI();
+        }
+    }
+
+    private void tearDownDeckViewArea()
+    {
+
     }
 }

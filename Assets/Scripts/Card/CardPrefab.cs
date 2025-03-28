@@ -99,4 +99,11 @@ public class CardPrefab : MonoBehaviour
         baseElement = this.transform.Find($"{prefabHierarchyPath}/Third").GetComponent<Image>();
         baseElement.color = (previewState.runnerOnThird) ? Color.red : Color.white;
     }
+
+    public void initializeUI()
+    {
+        // Assign card data to the UI
+        gameObject.transform.Find("Card Name").GetComponent<TMP_Text>().text = card.name;
+
+    }
 }

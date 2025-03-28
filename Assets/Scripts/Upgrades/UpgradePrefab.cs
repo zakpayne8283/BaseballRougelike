@@ -102,6 +102,10 @@ public class UpgradePrefab : MonoBehaviour
     /// </summary>
     public void chooseUpgrade()
     {
+        // Apply the upgrade
         upgradeStoreScript.chooseUpgrade(this);
+
+        // Close the store
+        upgradeStoreScript.closeUpgradeStore();
     }
 }
