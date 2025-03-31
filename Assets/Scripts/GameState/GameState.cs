@@ -135,10 +135,11 @@ public class GameState : MonoBehaviour
         }
     }
 
-    private void EndGame()
+    public void EndGame()
     {
-        CampaignManager.Instance.gameEnded = true;
-        SceneManager.LoadScene("CampaignScene");
+        currentGameState.awayScore = 1;
+        currentGameState.homeScore = 0;
+        CampaignManager.Instance.endGame(currentGameState);
     }
 
     /// <summary>

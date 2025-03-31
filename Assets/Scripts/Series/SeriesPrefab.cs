@@ -36,7 +36,7 @@ public class SeriesPrefab : MonoBehaviour
 
             for (int i = 0; i < series.totalGamesInSeries; i++)
             {
-                series.seriesGames[i] = new SeriesGame();
+                series.seriesGames[i] = new SeriesGame(fromSeries, i+1);
             }
         }
 

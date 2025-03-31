@@ -38,6 +38,58 @@ public class SeriesObj : ScriptableObject
     {
         return new SeriesObj(this);
     }
+
+    public void addCompletedGame(GameStateStruct gameEndState)
+    {
+        for (int i = 0; i < seriesGames.Length; i++)
+        {
+            if (seriesGames[i].gameCompleted)
+            {
+                continue;
+            }
+            else
+            {
+                // Update with the results
+                seriesGames[i].updateFromCompletedGame(gameEndState);
+
+                // Update the only the first incomplete game
+                break;
+            }
+        }
+    }
+
+    public bool playerWonLastGame()
+    {
+        int gameIndex = -1;
+
+        for (int i = 0; i < seriesGames.Length; i++)
+        {
+            // If last game in series
+            if (i == seriesGames.Length - 1)
+            {
+                gameIndex = i;
+            }
+            else
+            {
+                // Otherwise, check if the next game hasn't been played
+                if (seriesGames[i+1].gameCompleted)
+                {
+                    // If it has been, go to the next one
+                    continue;
+                }
+                else
+                {
+                    gameIndex = i;
+                }
+            }
+        }
+    
+        
+        if (playerIsHomeTeamInSeries)
+            return seriesGames[gameIndex].homeScore > seriesGames[gameIndex].awayScore;
+        else
+            return seriesGames[gameIndex].awayScore > seriesGames[gameIndex].homeScore;
+    }
 }
 
 public enum SERIES_LEVEL

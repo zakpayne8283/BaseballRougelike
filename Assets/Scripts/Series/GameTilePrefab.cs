@@ -38,12 +38,4 @@ public class GameTilePrefab : MonoBehaviour
         // Enablethe button component so that the game starts when it's clicked
         this.GetComponent<Button>().enabled = true;
     }
-
-    /// <summary>
-    /// Called when clicking on a game tile - starts that game if the game is the current one
-    /// </summary>
-    public void onClickStartGame()
-    {
-        
-    }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CampaignManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class CampaignManager : MonoBehaviour
 
     // Flag to tell if we're just leaving a game, to act on post game actions.
     public bool gameEnded = false;
+
+    public int upgradesAvailable = 0;
 
     private void Awake()
     {
@@ -144,5 +147,27 @@ public class CampaignManager : MonoBehaviour
         {
             series[i] = _series[i].copyToSeries();
         }
+    }
+
+    /// <summary>
+    /// Called from GameState.cs game manager to end a game
+    /// </summary>
+    /// <param name="gameEndState"></param>
+    public void endGame(GameStateStruct gameEndState)
+    {
+        // Note the game just ended
+        gameEnded = true;
+
+        // Record the results in the stored series data
+        SeriesObj currentSeries = series[series.Length - 1];
+        currentSeries.addCompletedGame(gameEndState);
+
+        // Award an upgrade point if applicable
+        if (currentSeries.playerWonLastGame())
+        {
+            upgradesAvailable++;
+        }
+
+        SceneManager.LoadScene("CampaignScene");
     }
 }
