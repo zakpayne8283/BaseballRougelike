@@ -29,6 +29,17 @@ public class SeriesPrefab : MonoBehaviour
         // Set which series this is based on
         series = fromSeries;
 
+        // If the series.seriesGames is null or empty, populate with empty
+        if (series.seriesGames == null || series.seriesGames.Length == 0)
+        {
+            series.seriesGames = new SeriesGame[series.totalGamesInSeries];
+
+            for (int i = 0; i < series.totalGamesInSeries; i++)
+            {
+                series.seriesGames[i] = new SeriesGame();
+            }
+        }
+
         // Get the series description
         TMP_Text seriesDescription = this.transform.Find("Series Description").GetComponent<TMP_Text>();
 
@@ -67,6 +78,7 @@ public class SeriesPrefab : MonoBehaviour
         // - set the width to actually look good. fill space of parent
         gridArea.cellSize = calculateCellSize(tileArea, gridArea);
 
+        bool isFirstUnplayedGame = true;
 
         for (int i = 0; i < series.totalGamesInSeries; i++)
         {
@@ -75,6 +87,15 @@ public class SeriesPrefab : MonoBehaviour
 
             // Initialize it
             addedTile.GetComponent<GameTilePrefab>().Initialize(homeTeam, i+1);
+
+            // If this is the first unplayed game of the series, highlight it
+            if (isFirstUnplayedGame && !series.seriesGames[i].gameCompleted)
+            {
+                addedTile.GetComponent<GameTilePrefab>().markAsCurrent();
+
+                // so subsequent games don't highlight
+                isFirstUnplayedGame = false;
+            }
         }
     }
 

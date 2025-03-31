@@ -21,6 +21,5 @@ public class SceneChanger : MonoBehaviour
     public void switchToScene()
     {
         SceneManager.LoadScene(sceneToSwitchTo);
-        //SceneManager.LoadScene(sceneToSwitchTo);
     }
 }

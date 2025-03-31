@@ -13,4 +13,6 @@ public class SeriesGame
     public int homeScore;
 
     public int gameInSeries;
+
+    public bool gameCompleted = false;
 }

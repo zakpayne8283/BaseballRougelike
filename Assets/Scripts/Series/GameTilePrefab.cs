@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameTilePrefab : MonoBehaviour
 {
@@ -24,5 +25,25 @@ public class GameTilePrefab : MonoBehaviour
         // Set game number text
         TMP_Text gameNumText = this.transform.Find("Game Number").GetComponent<TMP_Text>();
         gameNumText.text = $"Game #{gameNumber}";
+    }
+
+    /// <summary>
+    /// Handles needed logic for marking a game tile as the next game to be played
+    /// </summary>
+    public void markAsCurrent()
+    {
+        // Highlight this prefab to show it's the current game
+        this.transform.Find("Background Image").GetComponent<Outline>().enabled = true;
+
+        // Enablethe button component so that the game starts when it's clicked
+        this.GetComponent<Button>().enabled = true;
+    }
+
+    /// <summary>
+    /// Called when clicking on a game tile - starts that game if the game is the current one
+    /// </summary>
+    public void onClickStartGame()
+    {
+        
     }
 }
