@@ -923,6 +923,7 @@ GameObject:
   m_Component:
   - component: {fileID: 469161893}
   - component: {fileID: 469161892}
+  - component: {fileID: 469161894}
   m_Layer: 0
   m_Name: Campaign Manager
   m_TagString: Untagged
@@ -942,6 +943,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfb8c71573a827b48b8d4e30facc4d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  campaignData:
+    deck: {fileID: 0}
+    series: []
+    upgradesAvailable: 0
   deckDefault: {fileID: 11400000, guid: 97dd7db8723570341bebebdffa8da30d, type: 2}
   startingSeries: {fileID: 11400000, guid: f5ca8b6f0c873e243be2c2331dcd9d68, type: 2}
   gameEnded: 0
@@ -960,6 +965,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &469161894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469161891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd5e5009764fc8418c9ebd6b08c31ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inGameMenuPrefab: {fileID: 5653367312210547636, guid: 45a9c829f91592b43b72593283583840, type: 3}
+  menuParent: {fileID: 1042040383}
 --- !u!1 &475290983
 GameObject:
   m_ObjectHideFlags: 0
