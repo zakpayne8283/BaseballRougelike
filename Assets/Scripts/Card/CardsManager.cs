@@ -141,6 +141,6 @@ public class CardsManager : MonoBehaviour
     private void loadDataFromCampaignManager()
     {
         // Copy the deck instead, since it can't be changed outside of campaign scene
-        deck = CampaignManager.Instance.copyDeck();
+        deck = CampaignManager.Instance.campaignData.copyDeck();
     }
 }

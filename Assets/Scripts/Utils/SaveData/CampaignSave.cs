@@ -1,14 +1,6 @@
 using System.IO;
 using UnityEngine;
 
-// Object to be serialized in JSON for save data.
-[System.Serializable]
-public class CampaignSaveData
-{
-    public DeckSaveState deckSave;         // a DeckObj serialized as a string
-    public SeriesSaveState[] seriesSaves;
-}
-
 public class CampaignSave : MonoBehaviour
 {
     // Persistent instance
@@ -43,15 +35,12 @@ public class CampaignSave : MonoBehaviour
     /// </summary>
     public void SaveGame()
     {
-        // Get the save state setup
-        CampaignSaveData saveData = new CampaignSaveData
-        {
-            deckSave = CampaignManager.Instance.copyDeck().getDeckSaveState(),
-            seriesSaves = CampaignManager.Instance.copySeriesSaveState()
-        };
+        // Get the save state setup from campaign data
+        CampaignSaveData saveData = new CampaignSaveData(CampaignManager.Instance.campaignData);
 
         // Serialize to JSON
         string json = JsonUtility.ToJson(saveData, false);
+
         // Write the file
         File.WriteAllText(saveFilePath, json);
     }
@@ -70,11 +59,8 @@ public class CampaignSave : MonoBehaviour
             // Deserialize it to a new CampaignSaveData object
             CampaignSaveData data = JsonUtility.FromJson<CampaignSaveData>(json);
 
-            // Deserialize the deck into the game state
-            CampaignManager.Instance.loadDeck(data.deckSave);
-
-            // Deserialize the list of series played into the game stae
-            CampaignManager.Instance.loadSeriesData(data.seriesSaves);
+            // Setup campaign data using the save data
+            CampaignManager.Instance.campaignData = new Campaign(data);
         }
         else
         {

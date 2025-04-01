@@ -77,7 +77,7 @@ public class UpgradeStore : MonoBehaviour
         int[] drawnCards = new int[maxNumberUpgrades];
 
         // Get the cards with available upgrades
-        List<Card> cardsInDeck = CampaignManager.Instance.getDeck().getCards().ToList();
+        List<Card> cardsInDeck = CampaignManager.Instance.campaignData.getDeck().getCards().ToList();
         Card[] cardsInDeckWithUpgrades = cardsInDeck.Where(x => x.hasUpgrades()).ToArray();
 
         // Reinitialize the drawnCards array
@@ -155,7 +155,7 @@ public class UpgradeStore : MonoBehaviour
         // Find the card in the deck that matches the baseCard of the chosen upgrade
         // Since the deck can have multiples of the same card (e.g. flyout)
         // which one we choose doesn't really matter
-        Card[] cardsInDeck = CampaignManager.Instance.getDeck().getCards();
+        Card[] cardsInDeck = CampaignManager.Instance.campaignData.getDeck().getCards();
 
         for (int i = 0; i < cardsInDeck.Length; i++)
         {
@@ -193,7 +193,7 @@ public class UpgradeStore : MonoBehaviour
 
     private void populateDeckViewArea()
     {
-        DeckObj deck = CampaignManager.Instance.copyDeck();
+        DeckObj deck = CampaignManager.Instance.campaignData.copyDeck();
         Card[] cards = deck.getCards();
 
         for (int i = 0; i < cards.Length; i++)

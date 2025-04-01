@@ -13,7 +13,7 @@ public class SeriesManager : MonoBehaviour
     void Awake()
     {
         // Load any data we need to load first.
-        allSeries = CampaignManager.Instance.getSeries();
+        allSeries = CampaignManager.Instance.campaignData.getSeries();
         
         // Set the current series to latest one
         currentSeries = allSeries[allSeries.Length - 1];
