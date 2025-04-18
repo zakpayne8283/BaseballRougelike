@@ -35,6 +35,15 @@ public class CampaignSave : MonoBehaviour
     /// </summary>
     public void SaveGame()
     {
+        SaveGame(saveFilePath);
+    }
+
+    /// <summary>
+    /// Saves the game with provided file path
+    /// </summary>
+    /// <param name="filePath"></param>
+    public void SaveGame(string filePath)
+    {
         // Get the save state setup from campaign data
         CampaignSaveData saveData = new CampaignSaveData(CampaignManager.Instance.campaignData);
 
@@ -42,7 +51,7 @@ public class CampaignSave : MonoBehaviour
         string json = JsonUtility.ToJson(saveData, false);
 
         // Write the file
-        File.WriteAllText(saveFilePath, json);
+        File.WriteAllText(filePath, json);
     }
 
     /// <summary>
