@@ -7,6 +7,7 @@ public class InGameMenu : MonoBehaviour
 
     [Header("Sub-Menu References")]
     [SerializeField] public GameObject saveGameMenu;
+    [SerializeField] public GameObject loadGameMenu;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -52,6 +53,24 @@ public class InGameMenu : MonoBehaviour
         {
             // Set active
             saveGameMenu.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// Toggles the load game menu
+    /// </summary>
+    public void toggleLoadMenu()
+    {
+        // Check for active state
+        if (loadGameMenu.activeInHierarchy)
+        {
+            // If active, disable
+            loadGameMenu.SetActive(false);
+        }
+        else
+        {
+            // Set active
+            loadGameMenu.SetActive(true);
         }
     }
 
